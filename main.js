@@ -1,5 +1,5 @@
 const listaDeTeclas = document.querySelectorAll('.tecla')
-console.log(listaDeTeclas)
+const audios = document.querySelectorAll('audio')
 
 function Reproduzir(tecla){    
     let som = tecla.getAttribute("data-id")
@@ -8,47 +8,23 @@ function Reproduzir(tecla){
 
 listaDeTeclas.forEach(tecla => {
     tecla.setAttribute('onclick', "Reproduzir(this), console.log(this.getAttribute('data-id'))");
-    let teclas = [97,98,99,100,101,102,103,104,105]        
 });
 
-document.addEventListener('keydown', (event) => {
-        var name = event.key;
-        var code = event.code;
-
-        switch (name) {
-            case "1":
-                document.querySelector(`#som_tecla_pom`).play()
-                break;
-            case "2":
-                document.querySelector(`#som_tecla_clap`).play()
-                break;
-            case "3":
-                document.querySelector(`#som_tecla_tim`).play()
-                break;
-            case "4":
-                document.querySelector(`#som_tecla_puff`).play()
-                break;
-            case "5":
-                document.querySelector(`#som_tecla_splash`).play()
-                break;
-            case "6":
-                document.querySelector(`#som_tecla_toim`).play()
-                break;
-            case "7":
-                document.querySelector(`#som_tecla_psh`).play()
-                break;
-            case "8":
-                document.querySelector(`#som_tecla_tic`).play()
-                break;
-            case "9":
-                document.querySelector(`#som_tecla_tom`).play()
-                break;
-        
-            default:
-                break;
-        }
-
-    }, false);
+document.addEventListener('keydown',(event)  => {
+    var name = event.key;
+    for (let i = 0; i < audios.length ; i++) {
+        if(name == (i+1)){
+            if (audios[i].currentTime > 0) {
+                audios[i].currentTime = 0
+            }
+            audios[i].play()       
+        }       
+        listaDeTeclas[name-1].classList.add('ativa')
+        setTimeout(() => {
+            listaDeTeclas[name-1].classList.remove('ativa')
+        }, 200);
+    }        
+}, false);
 
 function musica1(){
     let notas = [1,3,5,6,7,2,4,5]
@@ -86,10 +62,6 @@ function Musica(x){
             musica()
             break;
 }}
-
-function Teclado(){
-    listaDeTeclas
-}
 
 function tocarMusica(x){
     const intervalo = setInterval(() => {
