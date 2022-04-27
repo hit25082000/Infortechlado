@@ -58,7 +58,12 @@ function musica2(){
 }
 
 var input = document.getElementById("CriarMusica");
+var clear = document.getElementById("BotaoApagar");
 
+clear.onclick = ()=>{   
+    LogVelocidade = []
+    input.value = ""
+}
 
 input.addEventListener('keydown',(event) =>{
     if (event.key === "Enter") {
@@ -82,7 +87,7 @@ function musica3(){
         let time = LogVelocidade[som]
             setTimeout(() => {
                 Reproduzir(listaDeTeclas[som-1])
-            }, i * (time + 100));
+            }, i * (time + 25));
         })
 };        
 
