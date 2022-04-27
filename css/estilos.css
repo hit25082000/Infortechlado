@@ -31,6 +31,15 @@ h1 {
   grid-template-columns: repeat(3, 1fr);
   padding: 10px;
 }
+.tecla_pom,.tecla_clap,.tecla_tim{
+  order: 3
+}
+.tecla_puff,.tecla_splash,.tecla_toim{
+  order: 2
+}
+.tecla_tic,.tecla_tom,.tecla_psh{
+  order: 1
+}
 
 .tecla {
   background-color: var(--branca);

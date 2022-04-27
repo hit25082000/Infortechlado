@@ -1,36 +1,51 @@
 const listaDeTeclas = document.querySelectorAll('.tecla')
 const audios = document.querySelectorAll('audio')
 
+var tempoEntreTeclas;
+var Cronometro;
+let LogVelocidade = []
+
 function Reproduzir(tecla){    
     let som = tecla.getAttribute("data-id")
+    if(document.querySelector(`#som_tecla_${som.toLowerCase()}`).currentTime > 0){
+        document.querySelector(`#som_tecla_${som.toLowerCase()}`).currentTime = 0
+    }     
     document.querySelector(`#som_tecla_${som.toLowerCase()}`).play();
+    tecla.classList.add('ativa')
+        setTimeout(() => {
+            tecla.classList.remove('ativa')
+        }, 200);
 }
 
 listaDeTeclas.forEach(tecla => {
     tecla.setAttribute('onclick', "Reproduzir(this), console.log(this.getAttribute('data-id'))");
 });
 
+
 document.addEventListener('keydown',(event)  => {
-    var name = event.key;
+    var name = event.key;   
+
     for (let i = 0; i < audios.length ; i++) {
         if(name == (i+1)){
-            if (audios[i].currentTime > 0) {
-                audios[i].currentTime = 0
+            Reproduzir(listaDeTeclas[i])
+
+            if(!LogVelocidade.length){
+                TempoAtual = (new Date()).getTime();
+                Cronometro = LogVelocidade.push((new Date(0)).getTime());
             }
-            audios[i].play()       
-        }       
-        listaDeTeclas[name-1].classList.add('ativa')
-        setTimeout(() => {
-            listaDeTeclas[name-1].classList.remove('ativa')
-        }, 200);
+            else{
+                LogVelocidade.push(new Date().getTime() - TempoAtual);
+                TempoAtual = (new Date()).getTime()
+            }
+        }
     }        
 }, false);
 
 function musica1(){
     let notas = [1,3,5,6,7,2,4,5]
-    notas.forEach(som => {
+    notas.forEach(som => {        
         let nota = listaDeTeclas[som].getAttribute("data-id");
-        document.querySelector(`#som_tecla_${nota.toLowerCase()}`).play();        
+        document.querySelector(`#som_tecla_${nota.toLowerCase()}`).play(); 
     });
 }
 
@@ -42,7 +57,37 @@ function musica2(){
         });        
 }
 
-function musica0(){
+var input = document.getElementById("CriarMusica");
+
+
+input.addEventListener('keydown',(event) =>{
+    if (event.key === "Enter") {
+        event.preventDefault();
+        document.getElementById("BotaoCriarMusica").click();
+}});
+
+input.onfocus = ()=>{
+    LogVelocidade = []
+}
+
+function musica3(){
+
+    let notas = Array.from(String(input.value), Number);
+
+    console.log('notas',notas)
+    console.log("Log",LogVelocidade)
+    
+
+    notas.forEach((som,i) => {
+        let time = LogVelocidade[som]
+            setTimeout(() => {
+                Reproduzir(listaDeTeclas[som-1])
+            }, i * (time + 100));
+        })
+};        
+
+
+function musica(){
     max = Math.floor(8);
     min = Math.ceil(0);
     let x = Math.floor(Math.random() * (max - min + 1)) + min;
@@ -58,15 +103,18 @@ function Musica(x){
         case 2:              
             musica2()
             break;
+        case 3:              
+            musica3()
+            break;
         default:
             musica()
             break;
 }}
 
-function tocarMusica(x){
+function TocarMusica(x){
     const intervalo = setInterval(() => {
         Musica(x)
-    }, 300);
+    }, 500);
     setTimeout(() => {
         clearInterval(intervalo)
     }, 10000);
