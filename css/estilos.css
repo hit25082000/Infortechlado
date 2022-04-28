@@ -53,6 +53,12 @@ h1 {
   line-height: 120px;
   text-align: center;
   width: 120px;
+  transition: all .3s ease;
+        transition-property: all;
+        transition-duration: 0.3s;
+        transition-timing-function: ease;
+        transition-delay: 0s;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .tecla.ativa,
@@ -62,6 +68,9 @@ h1 {
   box-shadow: 3px 3px 0 var(--vermelha-escura) inset;
   color: var(--branca);
   outline: none;
+  box-shadow: none;
+  transform: translateY(1.5px);
+  text-shadow: #000000;
 }
 
 .tecla.focus,
@@ -73,4 +82,36 @@ h1 {
 .tecla.active:focus,
 .tecla:active:focus {
   box-shadow: 3px 3px 0 var(--vermelha-escura) inset, 1px 1px 10px var(--luz);
+}
+
+.Criacao{
+  flex-direction: row;
+}
+
+#CriarMusica{
+  padding: 5px;
+  outline: none;
+  border-radius: 10px;
+}
+
+input[type="button"]{
+  padding: .5px 2em;  
+  display: inline;
+  margin: 10px;
+  flex-direction: row;
+  transition: all .3s ease;
+        transition-property: all;
+        transition-duration: 0.3s;
+        transition-timing-function: ease;
+        transition-delay: 0s;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+input[type="button"]:hover{
+  box-shadow: none;
+  transform: translateY(1.5px);
+  text-shadow: #000000;
+  background-color: #e93d50;
+  color: white;
+  cursor: pointer;
 }

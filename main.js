@@ -4,6 +4,8 @@ const audios = document.querySelectorAll('audio')
 var tempoEntreTeclas;
 var Cronometro;
 let LogVelocidade = []
+var input = document.getElementById("CriarMusica");
+var clear = document.getElementById("BotaoApagar");
 
 function Reproduzir(tecla){    
     let som = tecla.getAttribute("data-id")
@@ -11,16 +13,15 @@ function Reproduzir(tecla){
         document.querySelector(`#som_tecla_${som.toLowerCase()}`).currentTime = 0
     }     
     document.querySelector(`#som_tecla_${som.toLowerCase()}`).play();
-    tecla.classList.add('ativa')
+    tecla.classList.add('ativa','active','focus')
         setTimeout(() => {
-            tecla.classList.remove('ativa')
-        }, 50);        
+            tecla.classList.remove('ativa','active','focus')
+        }, 100);        
 }
 
 listaDeTeclas.forEach(tecla => {
     tecla.setAttribute('onclick', "Reproduzir(this), console.log(this.getAttribute('data-id'))");
 });
-
 
 document.addEventListener('keydown',(event)  => {
     var name = event.key;   
@@ -39,39 +40,37 @@ document.addEventListener('keydown',(event)  => {
     }        
 }, false);
 
+input.addEventListener('keydown',(event) =>{
+    if (event.key === "Enter") {
+        event.preventDefault();
+        document.getElementById("BotaoCriarMusica").click();
+    }
+    event.key === "Backspace" ?   LogVelocidade.pop() : "";    
+});
+
+(()=>{
+
+})()
+
 function musica1(){
     let notas = [1,3,5,6,7,2,4,5]
-    notas.forEach(som => {        
-        let nota = listaDeTeclas[som].getAttribute("data-id");
-        document.querySelector(`#som_tecla_${nota.toLowerCase()}`).play(); 
+    notas.forEach((som,i)=> {   
+        setTimeout(() => {
+            Reproduzir(listaDeTeclas[som-1])             
+        }, i * 1000);
     });
 }
 
 function musica2(){
     let notas = [2,2,2,2,2,2,2,2,5,2,5]
-        notas.forEach(som => {
-            let nota = listaDeTeclas[som].getAttribute("data-id");
-            document.querySelector(`#som_tecla_${nota.toLowerCase()}`).play();        
-        });        
+    notas.forEach((som,i)=> {   
+        setTimeout(() => {
+            Reproduzir(listaDeTeclas[som-1])             
+        }, i * 1000);
+    });       
 }
 
-var input = document.getElementById("CriarMusica");
-var clear = document.getElementById("BotaoApagar");
 
-clear.onclick = ()=>{   
-    LogVelocidade = []
-    input.value = ""
-}
-
-input.addEventListener('keydown',(event) =>{
-    if (event.key === "Enter") {
-        event.preventDefault();
-        document.getElementById("BotaoCriarMusica").click();
-}});
-
-input.onfocus = ()=>{
-    LogVelocidade = []
-}
 
 function musica3(){
 
@@ -91,8 +90,7 @@ function musica3(){
 
             },time);
     }
-};        
-
+}
 
 function musica(){
     max = Math.floor(8);
