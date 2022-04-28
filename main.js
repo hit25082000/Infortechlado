@@ -16,7 +16,7 @@ function Reproduzir(tecla){
     tecla.classList.add('ativa','active','focus')
         setTimeout(() => {
             tecla.classList.remove('ativa','active','focus')
-        }, 100);        
+        }, 250);        
 }
 
 listaDeTeclas.forEach(tecla => {

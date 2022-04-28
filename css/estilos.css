@@ -8,23 +8,33 @@
 
 body {
   align-items: center;
-  background: linear-gradient(45deg, #a7cfdf 0%,#23538a 100%);
+  background: linear-gradient(45deg, #086788 0%,#07A0C3 100%);
   display: flex;
   justify-content: center;
   flex-direction: column;
   font-family: 'Montserrat', sans-serif;
   min-height: 100vh;
+  background: #222;
+}
+.TituloPrincipal{
+  font-size: 4em;
+  color: white;
 }
 
-h1 {
-  color: var(--branca);
-  margin-bottom: 20px;
-  font-size: 2rem;
+.tecla,h1{
+  font-size: small;
+  text-align: center;
+  font-family: 'Press Start 2P';
+	color:rgb(8, 8, 8);
+	text-shadow:	#fff 0 0 4px,
+								yellow 0 -5px 10px,
+								orange 0 -15px 20px,
+								red 0 -25px 50px;
 }
 
 .teclado {
-  background: linear-gradient(to bottom, #eeeeee 0%,#cccccc 100%);
-  box-shadow: 6px 8px 0 6px #666, 10px 10px 10px #000;
+  background: linear-gradient(to bottom, #DD1c1a 0%,#DD1c1a 100%);
+  box-shadow: 6px 8px 0 6px rgb(99, 58, 58), 10px 10px 10px #000;
   border-radius: 30px;
   display: grid;
   gap: 10px;
@@ -42,16 +52,12 @@ h1 {
 }
 
 .tecla {
-  background-color: var(--branca);
+  background-color: #f0c808;  
   border-radius: 30px;
   box-shadow: 3px 3px 0 var(--cinza);
-  color: var(--vermelha);
   cursor: pointer;
   height: 120px;
-  font-size: 1.75em;
-  font-weight: bold;
   line-height: 120px;
-  text-align: center;
   width: 120px;
   transition: all .3s ease;
         transition-property: all;
@@ -66,11 +72,15 @@ h1 {
   background-color: var(--vermelha);
   border: 4px solid  var(--vermelha);
   box-shadow: 3px 3px 0 var(--vermelha-escura) inset;
-  color: var(--branca);
+  color: rgb(250, 250, 250);
   outline: none;
   box-shadow: none;
   transform: translateY(1.5px);
   text-shadow: #000000;
+}
+
+.tecla:hover{
+  transform: translateY(3px);
 }
 
 .tecla.focus,
@@ -86,16 +96,17 @@ h1 {
 
 .Criacao{
   flex-direction: row;
+  margin: 20px 0;
 }
 
 #CriarMusica{
   padding: 5px;
   outline: none;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 input[type="button"]{
-  padding: .5px 2em;  
+  padding: .5px 1em;  
   display: inline;
   margin: 10px;
   flex-direction: row;
@@ -104,7 +115,7 @@ input[type="button"]{
         transition-duration: 0.3s;
         transition-timing-function: ease;
         transition-delay: 0s;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;  
 }
 
 input[type="button"]:hover{
