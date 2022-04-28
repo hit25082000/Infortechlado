@@ -5,6 +5,14 @@
   --branca: #fff;
   --luz: rgb(229, 255, 0);
 }
+header{
+  justify-content: center;
+}
+
+main{
+  display: flex;
+  flex-direction: row;
+}
 
 body {
   align-items: center;
@@ -125,4 +133,12 @@ input[type="button"]:hover{
   background-color: #e93d50;
   color: white;
   cursor: pointer;
+}
+
+.Musicas{
+  margin: auto;
+  margin-left: 100px;
+}
+.Musicas h1{
+  margin-top: 10px;
 }
