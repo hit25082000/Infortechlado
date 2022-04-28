@@ -14,7 +14,7 @@ function Reproduzir(tecla){
     tecla.classList.add('ativa')
         setTimeout(() => {
             tecla.classList.remove('ativa')
-        }, 200);
+        }, 50);        
 }
 
 listaDeTeclas.forEach(tecla => {
@@ -27,16 +27,14 @@ document.addEventListener('keydown',(event)  => {
 
     for (let i = 0; i < audios.length ; i++) {
         if(name == (i+1)){
-            Reproduzir(listaDeTeclas[i])
-
             if(!LogVelocidade.length){
                 TempoAtual = (new Date()).getTime();
                 Cronometro = LogVelocidade.push((new Date(0)).getTime());
             }
             else{
-                LogVelocidade.push(new Date().getTime() - TempoAtual);
-                TempoAtual = (new Date()).getTime()
-            }
+                LogVelocidade.push(new Date().getTime() - TempoAtual);              
+            }  
+            Reproduzir(listaDeTeclas[i])                      
         }
     }        
 }, false);
@@ -83,12 +81,16 @@ function musica3(){
     console.log("Log",LogVelocidade)
     
 
-    notas.forEach((som,i) => {
-        let time = LogVelocidade[som]
+    for (let i = 0; i < notas.length; i++) {
+        let time = LogVelocidade[i]                
             setTimeout(() => {
-                Reproduzir(listaDeTeclas[som-1])
-            }, i * (time + 25));
-        })
+                Reproduzir(listaDeTeclas[notas[i]-1])
+                
+                console.log("Index: ",i ,"Log: ",time )
+                console.log("Tecla: ",listaDeTeclas[notas[i]-1])
+
+            },time);
+    }
 };        
 
 
