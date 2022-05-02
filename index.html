@@ -25,10 +25,13 @@
         <h1 class="TituloPrincipal">Infortechlado</h1>
         
         <section class="Criacao">
+            <input type="text"  id="NomeMusica" placeholder="Nomeie sua musica" >
             <input type="text"  id="CriarMusica" placeholder="digite sua musica" >
-            <input type="button"  id="BotaoCriarMusica" onclick="Musicas.MusicaCriada()" value="Tocar">
-            <input type="button"  id="SalvarMusica" onclick="Salvar()" value="Salvar Musica">
-        </section>
+            <div>
+                <input type="button"  id="BotaoCriarMusica" onclick="Musicas.TocarMusica()" value="Tocar">
+                <input type="button"  id="SalvarMusica" onclick="Salvar(this)" value="Salvar">
+            </div>
+            </section>
     </header>
 
     <main>

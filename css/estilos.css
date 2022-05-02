@@ -5,13 +5,10 @@
   --branca: #fff;
   --luz: rgb(229, 255, 0);
 }
-header{
-  justify-content: center;
-}
 
 main{
   display: flex;
-  flex-direction: row;
+  flex-direction: row;  
 }
 
 body {
@@ -24,6 +21,7 @@ body {
   min-height: 100vh;
   background: #222;
 }
+
 .TituloPrincipal{
   font-size: 4em;
   color: white;
@@ -102,17 +100,6 @@ body {
   box-shadow: 3px 3px 0 var(--vermelha-escura) inset, 1px 1px 10px var(--luz);
 }
 
-.Criacao{
-  flex-direction: row;
-  margin: 20px 0;
-}
-
-#CriarMusica{
-  padding: 5px;
-  outline: none;
-  border-radius: 5px;
-}
-
 input[type="button"]{
   padding: .5px 1em;  
   display: inline;
@@ -136,9 +123,32 @@ input[type="button"]:hover{
 }
 
 .Musicas{
-  margin: auto;
-  margin-left: 100px;
+  position: absolute;
+  top: 30vh;
+  left: 20vh;
 }
-.Musicas h1{
+
+.Musicas p{
   margin-top: 10px;
+  color: wheat;
 }
+
+.Criacao{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+input[type="text"]{
+  width: 30vw;
+  margin: 5px;
+  padding: 5px;
+  outline: none;
+  border-radius: 5px;
+}
+
+.Criacao div{
+  flex-direction: row;
+}
+

@@ -1,15 +1,14 @@
 const listaDeTeclas = document.querySelectorAll('.tecla')
 const audios = document.querySelectorAll('audio')
 var input = document.getElementById("CriarMusica");
-
 var Cronometro;
 let LogVelocidade = []
 
 listaDeTeclas.forEach(tecla => {
-    tecla.setAttribute('onclick', "Reproduzir(this), console.log(this.getAttribute('data-id'))");
+    tecla.setAttribute('onclick', "Reproduzir(this)");
 });
 
-document.addEventListener('keydown',(event)  => {
+input.addEventListener('keydown',(event)  => {
     var name = event.key;   
 
     for (let i = 0; i < audios.length ; i++) {
@@ -29,7 +28,7 @@ document.addEventListener('keydown',(event)  => {
 input.addEventListener('keydown',(event) =>{
     if (event.key === "Enter") {
         event.preventDefault();
-        document.getElementById("BotaoCriarMusica").click();
+        document.getElementById("BotaoCriarMusica").click();        
     }
     event.key === "Backspace" ?   LogVelocidade.pop() : "";  
     
@@ -45,16 +44,7 @@ const Musicas = {
                 Reproduzir(listaDeTeclas[som-1])             
             }, i * 1000);
         });
-    },
-    
-    Musica2(){
-        let notas = [2,2,2,2,2,2,2,2,5,2,5]
-        notas.forEach((som,i)=> {   
-            setTimeout(() => {
-                Reproduzir(listaDeTeclas[som-1])             
-            }, i * 1000);
-        });       
-    },
+    },   
     
     MusicaPadrao(){
         max = Math.floor(8);
@@ -68,17 +58,44 @@ const Musicas = {
         });        
     },
 
-    MusicaCriada(){
+    TocarMusica(notas,log){
+        let Notas;
+        let Log;
 
-        let notas = Array.from(String(input.value), Number);         
+        notas == undefined ? Notas = input.value : Notas = notas;
+        log == undefined ? Log = LogVelocidade : Log = log;    
     
-        for (let i = 0; i < notas.length; i++) {
-            let time = LogVelocidade[i]                
+        for (let i = 0; i < Notas.length; i++) {
+            let time = Log[i]                
                 setTimeout(() => {
-                    Reproduzir(listaDeTeclas[notas[i]-1])                    
+                    Reproduzir(listaDeTeclas[Notas[i]-1])                    
                 },time);
         }
-    }, 
+        input.value = ""
+        LogVelocidade = []
+    },   
+    
+    ListaMusicas : [
+        {            
+        },               
+    ],
+
+    Play(Name){
+        Musicas.ListaMusicas.forEach(e => {
+            if(Name == e.Name){
+                Musicas.TocarMusica(e.Notas,e.Log)
+            }
+        });
+    }
+}
+
+class Musica{
+    constructor(Notas,Log,Name){
+        this.Name = Name
+        this.Notas = Notas
+        this.Log = Log
+        Musicas.ListaMusicas.push(this)
+    }
 }
 
 function Reproduzir(tecla){    
@@ -88,28 +105,25 @@ function Reproduzir(tecla){
     }     
     document.querySelector(`#som_tecla_${som.toLowerCase()}`).play();
     tecla.classList.add('ativa','active','focus')
-        setTimeout(() => {
-            tecla.classList.remove('ativa','active','focus')
-        }, 200);        
+    setTimeout(() => {
+        tecla.classList.remove('ativa','active','focus')
+    }, 200);        
 }
 
 function Salvar(){
-    Musicas += {
-        MusicaNova(){
-            let notas = input
-            let Log = LogVelocidade
-        notas.forEach((som,i)=> {   
-            setTimeout(() => {
-                Reproduzir(listaDeTeclas[som-1])             
-            }, Log[i]);
-        });
-        }
-    }
+    let Notas = document.getElementById("CriarMusica").value.split('').map(Number);
+    let Log = LogVelocidade
+    let Name = document.querySelector('#NomeMusica').value
+    
+    new Musica(Notas,Log,Name)
 
     let TabelaMusicas = document.querySelector(".Musicas")
-    let ListaMusicas = document.createElement("h1")
+    let tr = document.createElement('tr')
+    tr.innerHTML = `
+    <td>
+        <p onclick="Musicas.Play(${Name})" style="cursor: pointer;" >${Name}</p>
+    </td>
+    `
 
-    ListaMusicas.innerHTML = `<h1> Musica Nova </h1>`
-
-    TabelaMusicas.appendChild(ListaMusicas)
+    TabelaMusicas.appendChild(tr)
 }
