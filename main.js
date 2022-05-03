@@ -4,15 +4,25 @@ var input = document.getElementById("CriarMusica");
 var Cronometro;
 let LogVelocidade = []
 
+
 listaDeTeclas.forEach(tecla => {
     tecla.setAttribute('onclick', "Reproduzir(this)");
 });
 
 input.addEventListener('keydown',(event)  => {
-    var name = event.key;   
+    if (event.key === "Enter") {
+        event.preventDefault();
+        document.getElementById("BotaoCriarMusica").click();        
+    }
+
+    if(event.key === "Backspace")
+         LogVelocidade.pop()   
+
+    if(input == "")
+        LogVelocidade = [] 
 
     for (let i = 0; i < audios.length ; i++) {
-        if(name == (i+1)){
+        if(event.key == (i+1)){
             if(!LogVelocidade.length){
                 TempoAtual = (new Date()).getTime();
                 Cronometro = LogVelocidade.push((new Date(0)).getTime());
@@ -25,17 +35,17 @@ input.addEventListener('keydown',(event)  => {
     }        
 }, false);
 
-input.addEventListener('keydown',(event) =>{
-    if (event.key === "Enter") {
-        event.preventDefault();
-        document.getElementById("BotaoCriarMusica").click();        
-    }
-    event.key === "Backspace" ?   LogVelocidade.pop() : "";  
-    
-    input == "" ? LogVelocidade = [] : "";
-});
+const Storage = {
+    get() {
+        return JSON.parse(localStorage.getItem("MusicConfig")) || []
+    },
 
-const Musicas = {
+    set(musicas) {
+        localStorage.setItem("MusicConfig", JSON.stringify(musicas))
+    }
+}
+
+const MusicConfig = {
 
     Musica1(){
         let notas = [1,3,5,6,7,2,4,5]
@@ -58,7 +68,7 @@ const Musicas = {
         });        
     },
 
-    TocarMusica(notas,log){
+    TocaMusica(notas,log){
         let Notas;
         let Log;
 
@@ -70,31 +80,31 @@ const Musicas = {
                 setTimeout(() => {
                     Reproduzir(listaDeTeclas[Notas[i]-1])                    
                 },time);
-        }
-        input.value = ""
-        LogVelocidade = []
-    },   
-    
-    ListaMusicas : [
-        {            
-        },               
-    ],
+        }              
+    },     
 
-    Play(Name){
-        Musicas.ListaMusicas.forEach(e => {
-            if(Name == e.Name){
-                Musicas.TocarMusica(e.Notas,e.Log)
+    Play(index){
+        MusicConfig.ListaMusicas.forEach((e,i) => {
+            if(index == i){
+                MusicConfig.TocaMusica(e.Notas,e.Log)
             }
         });
-    }
+    },
+
+    Remove(index){
+        MusicConfig.ListaMusicas.splice(index,1)  
+        App.reload()            
+    },
+
+    ListaMusicas : Storage.get()
 }
 
 class Musica{
     constructor(Notas,Log,Name){
         this.Name = Name
         this.Notas = Notas
-        this.Log = Log
-        Musicas.ListaMusicas.push(this)
+        this.Log = Log    
+        MusicConfig.ListaMusicas.push(this)   
     }
 }
 
@@ -115,15 +125,42 @@ function Salvar(){
     let Log = LogVelocidade
     let Name = document.querySelector('#NomeMusica').value
     
-    new Musica(Notas,Log,Name)
+    new Musica(Notas,Log,Name)  
+    Storage.set(MusicConfig.ListaMusicas)
 
-    let TabelaMusicas = document.querySelector(".Musicas")
+    App.reload()
+}
+
+function Exibir(musica,index){
+    let Name = musica.Name
+
+    let TabelaMusicas = document.querySelector(".MusicConfig")
     let tr = document.createElement('tr')
     tr.innerHTML = `
-    <td>
-        <p onclick="Musicas.Play(${Name})" style="cursor: pointer;" >${Name}</p>
-    </td>
+    <td onclick="MusicConfig.Play(${index})" style="cursor: pointer;" >${Name} </td>
+    <td onclick="MusicConfig.Remove(${index})" style="cursor: pointer;"> X </td>
     `
-
     TabelaMusicas.appendChild(tr)
 }
+
+const App = {
+    init(){
+        Storage.set(MusicConfig.ListaMusicas)
+        MusicConfig.ListaMusicas.forEach(Exibir)
+    },
+
+    reload(){
+        input.value = ""
+        document.querySelector('#NomeMusica').value = ""
+        LogVelocidade = []  
+        let TabelaMusicas = document.querySelector(".MusicConfig")
+        TabelaMusicas.innerHTML = ""
+        App.init()
+    }
+}
+
+App.init()
+
+audios.forEach(x=>{
+    x.volume = .3
+})

@@ -46,6 +46,7 @@ body {
   gap: 10px;
   grid-template-columns: repeat(3, 1fr);
   padding: 10px;
+  align-self: center;
 }
 .tecla_pom,.tecla_clap,.tecla_tim{
   order: 3
@@ -128,9 +129,9 @@ input[type="button"]:hover{
   left: 20vh;
 }
 
-.Musicas p{
-  margin-top: 10px;
-  color: wheat;
+.Musicas tr td{
+  padding: 10px;
+  color: wheat;  
 }
 
 .Criacao{
