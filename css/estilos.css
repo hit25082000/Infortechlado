@@ -6,14 +6,14 @@
   --luz: rgb(229, 255, 0);
 }
 
-main{
-  display: flex;
-  flex-direction: row;  
+main {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 body {
   align-items: center;
-  background: linear-gradient(45deg, #086788 0%,#07A0C3 100%);
+  background: linear-gradient(45deg, #086788 0%, #07A0C3 100%);
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -22,24 +22,25 @@ body {
   background: #222;
 }
 
-.TituloPrincipal{
+.TituloPrincipal {
   font-size: 4em;
   color: white;
 }
 
-.tecla,h1{
+.tecla,
+h1 {
   font-size: small;
   text-align: center;
   font-family: 'Press Start 2P';
-	color:rgb(8, 8, 8);
-	text-shadow:	#fff 0 0 4px,
-								yellow 0 -5px 10px,
-								orange 0 -15px 20px,
-								red 0 -25px 50px;
+  color: rgb(8, 8, 8);
+  text-shadow: #fff 0 0 4px,
+    yellow 0 -5px 10px,
+    orange 0 -15px 20px,
+    red 0 -25px 50px;
 }
 
 .teclado {
-  background: linear-gradient(to bottom, #DD1c1a 0%,#DD1c1a 100%);
+  background: linear-gradient(to bottom, #DD1c1a 0%, #DD1c1a 100%);
   box-shadow: 6px 8px 0 6px rgb(99, 58, 58), 10px 10px 10px #000;
   border-radius: 30px;
   display: grid;
@@ -48,18 +49,27 @@ body {
   padding: 10px;
   align-self: center;
 }
-.tecla_pom,.tecla_clap,.tecla_tim{
+
+.tecla_pom,
+.tecla_clap,
+.tecla_tim {
   order: 3
 }
-.tecla_puff,.tecla_splash,.tecla_toim{
+
+.tecla_puff,
+.tecla_splash,
+.tecla_toim {
   order: 2
 }
-.tecla_tic,.tecla_tom,.tecla_psh{
+
+.tecla_tic,
+.tecla_tom,
+.tecla_psh {
   order: 1
 }
 
 .tecla {
-  background-color: #f0c808;  
+  background-color: #f0c808;
   border-radius: 30px;
   box-shadow: 3px 3px 0 var(--cinza);
   cursor: pointer;
@@ -67,17 +77,17 @@ body {
   line-height: 120px;
   width: 120px;
   transition: all .3s ease;
-        transition-property: all;
-        transition-duration: 0.3s;
-        transition-timing-function: ease;
-        transition-delay: 0s;
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .tecla.ativa,
 .tecla:active {
   background-color: var(--vermelha);
-  border: 4px solid  var(--vermelha);
+  border: 4px solid var(--vermelha);
   box-shadow: 3px 3px 0 var(--vermelha-escura) inset;
   color: rgb(250, 250, 250);
   outline: none;
@@ -86,7 +96,7 @@ body {
   text-shadow: #000000;
 }
 
-.tecla:hover{
+.tecla:hover {
   transform: translateY(3px);
 }
 
@@ -101,20 +111,20 @@ body {
   box-shadow: 3px 3px 0 var(--vermelha-escura) inset, 1px 1px 10px var(--luz);
 }
 
-input[type="button"]{
-  padding: .5px 1em;  
+input[type="button"] {
+  padding: .5px 1em;
   display: inline;
   margin: 10px;
   flex-direction: row;
   transition: all .3s ease;
-        transition-property: all;
-        transition-duration: 0.3s;
-        transition-timing-function: ease;
-        transition-delay: 0s;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;  
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
-input[type="button"]:hover{
+input[type="button"]:hover {
   box-shadow: none;
   transform: translateY(1.5px);
   text-shadow: #000000;
@@ -123,33 +133,39 @@ input[type="button"]:hover{
   cursor: pointer;
 }
 
-.Musicas{
-  position: absolute;
-  top: 30vh;
-  left: 20vh;
+.Musicas {
+  justify-content: auto;
+  margin: 10px;
+  color: #e93d50;
+  background-color: #f0c808;
+  border-radius: 20px;
+  gap: 2px;
 }
 
-.Musicas tr td{
+.Musicas tbody tr td {
   padding: 10px;
-  color: wheat;  
+  color: red;
+  border-bottom: #000 solid 1px;
+  max-height: 20px;
 }
 
-.Criacao{
+.XD td {
+  display: inline;
+  height: 10px;
+}
+
+
+.Criacao {
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
 }
 
-input[type="text"]{
+input[type="text"] {
   width: 30vw;
   margin: 5px;
   padding: 5px;
   outline: none;
   border-radius: 5px;
 }
-
-.Criacao div{
-  flex-direction: row;
-}
-
