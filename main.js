@@ -138,8 +138,10 @@ function Exibir(musica, index) {
     let TabelaMusicas = document.querySelector(".Musicas tbody")
     let tr = document.createElement('tr')
     tr.innerHTML = `
-    <td class="XD" onclick="MusicConfig.Play(${index})" style="cursor: pointer;" ><h1>${Name} </h1></td>
-    <td onclick="MusicConfig.Remove(${index})" style="cursor: pointer;"> X </td>
+    <td onclick="MusicConfig.Play(${index})" style="cursor: pointer;" >${Name} </td>
+    <td onclick="MusicConfig.Remove(${index})" style="cursor: pointer;">
+     <img width="5" heigh="5"  src="./images/657059.png" alt=""> 
+     </td>
     `
     TabelaMusicas.appendChild(tr)
 }
