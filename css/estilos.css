@@ -6,9 +6,51 @@
   --luz: rgb(229, 255, 0);
 }
 
+header {
+  margin: auto;
+}
+
+.TituloPrincipal {
+  font-size: 4em;
+  color: white;
+  align-self: flex-start;
+}
+
 main {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+}
+
+.modal-overlay {
+  width: 100%;
+  height: 100%;
+
+  background-color: rgba(0, 0, 0, 0.7);
+
+  position: fixed;
+  top: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  opacity: 0;
+  visibility: hidden;
+
+  z-index: 999;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal {
+  background: #F0F2f50;
+  padding: 2.4rem;
+
+  position: relative;
+  z-index: 1;
 }
 
 body {
@@ -24,10 +66,6 @@ body {
   animation: colors 5s ease infinite;
 }
 
-.TituloPrincipal {
-  font-size: 4em;
-  color: white;
-}
 
 @keyframes colors {
   0% {
@@ -55,7 +93,12 @@ h1 {
     red 0 -25px 50px;
 }
 
+#volume {
+  margin-top: 50px;
+}
+
 .teclado {
+  margin-bottom: 20px;
   background: linear-gradient(to bottom, #DD1c1a 0%, #DD1c1a 100%);
   box-shadow: 6px 8px 0 6px rgb(99, 58, 58), 10px 10px 10px #000;
   border-radius: 30px;
@@ -84,49 +127,6 @@ h1 {
   order: 1
 }
 
-.tecla {
-  background-color: #f0c808;
-  border-radius: 30px;
-  box-shadow: 3px 3px 0 var(--cinza);
-  cursor: pointer;
-  height: 120px;
-  line-height: 120px;
-  width: 120px;
-  transition: all .3s ease;
-  transition-property: all;
-  transition-duration: 0.3s;
-  transition-timing-function: ease;
-  transition-delay: 0s;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-}
-
-.tecla.ativa,
-.tecla:active {
-  background-color: #DD1c1a;
-  border: 4px solid #DD1c1a;
-  box-shadow: 3px 3px 0 var(--vermelha-escura) inset;
-  color: rgb(250, 250, 250);
-  outline: none;
-  box-shadow: none;
-  transform: translateY(1.5px);
-  text-shadow: #000000;
-}
-
-.tecla:hover {
-  transform: translateY(3px);
-}
-
-.tecla.focus,
-.tecla:focus {
-  outline: none;
-  box-shadow: 1px 1px 10px var(--luz);
-}
-
-.tecla.active:focus,
-.tecla:active:focus {
-  box-shadow: 3px 3px 0 var(--vermelha-escura) inset, 1px 1px 10px var(--luz);
-}
-
 input[type="button"] {
   padding: .5px 1em;
   display: inline;
@@ -150,7 +150,8 @@ input[type="button"]:hover {
   cursor: pointer;
 }
 
-table thead tr th:first-child {
+table thead tr th:first-child,
+tfoot tr td:first-child {
   border-radius: 0.25rem .25rem .25rem 0.25rem;
 }
 
@@ -162,11 +163,58 @@ table tbody tr td:last-child {
   border-radius: 0 0.25rem 0.25rem 0;
 }
 
+.checkbox {
+  display: flex;
+  align-items: center;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.checkbox input {
+  display: none;
+}
+
+.checkbox input:checked~.checkbox__mark svg {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.checkbox__mark {
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+  border: 0.2rem solid #000;
+}
+
+.checkbox__mark svg {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.5);
+  transition: all ease 0.2s;
+  opacity: 0;
+}
+
+.checkbox--disabled {
+  color: grey;
+  pointer-events: none;
+}
+
+.checkbox--disabled .checkbox__mark {
+  border-color: grey;
+}
+
+.checkbox--disabled .checkbox__mark {
+  border-color: grey;
+}
+
 table thead tr th:last-child {
   background: #222;
 }
 
-table thead th {
+table thead th,
+tfoot td {
   background: white;
   font-weight: bold;
   padding: .5rem 1rem;
@@ -181,7 +229,13 @@ table tbody td {
   transition: cubic-bezier(12);
 }
 
-table thead th {
+
+tfoot tr td {
+  text-align: center;
+}
+
+table thead th,
+tfoot td {
   color: rebeccapurple;
   text-shadow: 0px 3px 20px #f0c808;
   background-color: #f300df;
@@ -218,6 +272,13 @@ table tbody td:hover {
   background-color: #f0c808;
   outline: none;
   box-shadow: 1px 1px 10px var(--luz);
+}
+
+table tfoot td:hover,
+thead th:hover {
+  background-color: #000 !important;
+  color: white !important;
+  cursor: pointer;
 }
 
 table tbody td:last-child {
@@ -264,4 +325,52 @@ input[type="text"] {
 
 input[type="text"]:focus {
   transform: scale(1.01);
+}
+
+.tecla {
+  background-color: #f0c808;
+  border-radius: 30px;
+  cursor: pointer;
+  height: 120px;
+  line-height: 120px;
+  width: 120px;
+  transition: all .5s ease 0s;
+  transition-timing-function: ease;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.tecla.ativa,
+.tecla:active {
+  background-color: #DD1c1a;
+  border: 4px solid #DD1c1a;
+  box-shadow: 3px 3px 0 var(--vermelha-escura) inset;
+  color: rgb(250, 250, 250);
+  outline: none;
+  box-shadow: none;
+  transform: translateY(1.5px);
+  text-shadow: #000000;
+}
+
+.tecla:hover {
+  transform: translateY(3px);
+}
+
+.tecla.focus,
+.tecla:focus {
+  outline: none;
+  box-shadow: 1px 1px 10px var(--luz);
+}
+
+.tecla.active:focus,
+.tecla:active:focus {
+  box-shadow: 3px 3px 0 var(--vermelha-escura) inset, 1px 1px 10px var(--luz);
+}
+
+.tecla.gamefic {
+  box-shadow: 3px 3px 0 green inset, 1px 1px 10px var(--luz);
+  background-color: #1add1a;
+  border: 4px solid #DD1c1a;
+  color: rgb(250, 250, 250);
+  transform: translateY(1.5px);
+  text-shadow: #000000;
 }

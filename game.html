@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Programador musical</title>
+    <title>Tech flash</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,30 +19,28 @@
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
     </style>
 
-    <script src="main.js" defer></script>
+    <script src="game.js" defer></script>
 </head>
 
 <body>
     <header>
-        <h1 class="TituloPrincipal">Infortechlado</h1>
+        <h1 class="TituloPrincipal">Tchlado Flash</h1>
 
         <section class="Criacao">
-            <input type="text" id="NomeMusica" placeholder="Nomeie sua musica">
-            <input type="text" id="CriarMusica" placeholder="digite sua musica">
-            <div>
-                <input type="button" id="BotaoCriarMusica" onclick="MusicConfig.TocaMusica()" value="Tocar">
-                <input type="button" id="SalvarMusica" onclick="Salvar(this)" value="Salvar">
-                <input type="range" min="1" max="100" value="50" class="slider" id="volume">
-            </div>
+            <input type="range" min="1" max="100" value="50" class="slider" id="volume">
         </section>
     </header>
+    <div class="modal-overlay">
+        <div class="modal">
+        </div>
+    </div>
 
     <main>
         <table class="Musicas">
             <thead>
                 <tr>
                     <th colspan="3">
-                        Musicas
+                        <a href="index.html">Musicas</a>
                     </th>
                     <th style="display: none;"></th>
                 </tr>
@@ -70,7 +68,8 @@
             <button data-id="tic" class="tecla tecla_tic">Tic</button>
             <button data-id="tom" class="tecla tecla_tom">Tom</button>
         </section>
-        <div></div>
+        <div>
+        </div>
     </main>
 
     <audio src="sounds/keyz.wav" id="som_tecla_psh"></audio>
