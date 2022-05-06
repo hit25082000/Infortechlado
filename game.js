@@ -8,19 +8,13 @@ var Cronometro;
 let LogAcertos = []
 let GameLog = []
 
-volume.oninput = () => {
-    audios.forEach(x => {
-        x.volume = volume.value / 100
-    })
-}
-
 listaDeTeclas.forEach(tecla => {
     tecla.setAttribute('onclick', "Reproduzir(this)");
 });
 
 document.addEventListener('keydown', (event) => {
     for (let i = 0; i < listaDeTeclas.length; i++) {
-        if (event.key == (i + 1)) {
+        if (event.key == (NotasData[i])) {
             if (!LogAcertos.length) {
                 TempoAtual = (new Date()).getTime();
                 Cronometro = LogAcertos.push((new Date(0)).getTime());
@@ -48,23 +42,36 @@ const MusicConfig = {
 
         for (let i = 0; i < NotasData.length; i++) {
 
-            LogData[i] += 2000
+            LogData[i] + 5000
 
             GameLog.push(LogData[i] - 2000)
 
             console.log("Game", GameLog[i])
             console.log("Data", LogData[i])
 
+            let div = document.createElement('div')
+
+            div.innerHTML = `<div style="z-index:${i}" class="teclaImg teclaImg${i}">${NotasData[i]}</div>`
+
+            listaDeTeclas[NotasData[i] - 1].appendChild(div)
+
             setTimeout(() => {
-                listaDeTeclas[NotasData[i] - 1].classList.add('gamefic')
+
+                document.querySelector(`.teclaImg${i}`).classList.toggle('gamefic')
+
                 setTimeout(() => {
-                    listaDeTeclas[NotasData[i] - 1].classList.remove('gamefic')
+                    div.remove()
                 }, 2000);
             }, GameLog[i])
 
             setTimeout(() => {
                 Reproduzir(listaDeTeclas[NotasData[i] - 1])
+                if (i + 1 == NotasData.length) {
+                    document.querySelector(".Musicas").classList.remove('gameMode')
+                    document.querySelector(".teclado").classList.remove('gameMode')
+                }
             }, LogData[i]);
+
         }
         App.reload()
     },
@@ -72,6 +79,8 @@ const MusicConfig = {
     Play(index) {
         document.querySelector('.modal-overlay').classList.toggle('active')
         document.querySelector(".modal").innerHTML = 3
+        document.querySelector(".Musicas").classList.add('gameMode')
+        document.querySelector(".teclado").classList.add('gameMode')
         setTimeout(() => {
             document.querySelector(".modal").innerHTML = 2
             setTimeout(() => {
@@ -139,3 +148,8 @@ const App = {
 
 App.init()
 
+volume.oninput = () => {
+    audios.forEach(x => {
+        x.volume = .3
+    })
+}
