@@ -42,9 +42,7 @@ const MusicConfig = {
 
         for (let i = 0; i < NotasData.length; i++) {
 
-            LogData[i] + 5000
-
-            GameLog.push(LogData[i] - 2000)
+            GameLog.push(LogData[i])
 
             console.log("Game", GameLog[i])
             console.log("Data", LogData[i])
@@ -69,8 +67,10 @@ const MusicConfig = {
                 if (i + 1 == NotasData.length) {
                     document.querySelector(".Musicas").classList.remove('gameMode')
                     document.querySelector(".teclado").classList.remove('gameMode')
+
+                    App.reload()
                 }
-            }, LogData[i]);
+            }, LogData[i] + 2000);
 
         }
         App.reload()
@@ -78,9 +78,18 @@ const MusicConfig = {
 
     Play(index) {
         document.querySelector('.modal-overlay').classList.toggle('active')
-        document.querySelector(".modal").innerHTML = 3
         document.querySelector(".Musicas").classList.add('gameMode')
         document.querySelector(".teclado").classList.add('gameMode')
+        document.querySelector(".tecla_pom").classList.add("gameMode")
+        document.querySelector(".tecla_clap").classList.add("gameMode")
+        document.querySelector(".tecla_tim").classList.add("gameMode")
+        document.querySelector(".tecla_puff").classList.add("gameMode")
+        document.querySelector(".tecla_splash").classList.add("gameMode")
+        document.querySelector(".tecla_toim").classList.add("gameMode")
+        document.querySelector(".tecla_tic").classList.add("gameMode")
+        document.querySelector(".tecla_tom").classList.add("gameMode")
+        document.querySelector(".tecla_psh").classList.add("gameMode")
+        document.querySelector(".modal").innerHTML = 3
         setTimeout(() => {
             document.querySelector(".modal").innerHTML = 2
             setTimeout(() => {

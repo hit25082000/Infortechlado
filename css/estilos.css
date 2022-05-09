@@ -21,7 +21,7 @@ main {
   width: 110%;
   height: 100%;
 
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0);
 
   position: fixed;
   top: 0;
@@ -392,6 +392,7 @@ input[type="text"]:focus {
 .teclaImg.gamefic {
   transform: translateY(-120px);
   transition: all 2s ease;
+  animation-timing-function: cubic-bezier(.02, .93, .87, .37);
   opacity: 1;
 }
 
@@ -400,7 +401,7 @@ input[type="text"]:focus {
   color: white;
 }
 
-.gameMode {
+.Musicas.gameMode {
   transform: translateX(-450px);
 }
 
@@ -408,4 +409,22 @@ input[type="text"]:focus {
   grid-template-columns: repeat(1, 1fr);
   grid-auto-flow: column;
   transform: translateY(350px);
+}
+
+.tecla_pom.gameMode,
+.tecla_clap.gameMode,
+.tecla_tim.gameMode {
+  order: 1
+}
+
+.tecla_puff.gameMode,
+.tecla_splash.gameMode,
+.tecla_toim.gameMode {
+  order: 2
+}
+
+.tecla_tic.gameMode,
+.tecla_tom.gameMode,
+.tecla_psh.gameMode {
+  order: 3
 }
