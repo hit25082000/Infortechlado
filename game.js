@@ -22,7 +22,7 @@ document.addEventListener('keydown', (event) => {
             else {
                 LogAcertos.push(new Date().getTime() - TempoAtual);
             }
-            if (LogAcertos[i] <= LogData[i] && LogAcertos[i] >= LogData[i] + 100) {
+            if (LogAcertos[i] <= LogData[i] && LogAcertos[i] >= LogData[i] - 250) {
 
             }
         }
