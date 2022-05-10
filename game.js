@@ -1,5 +1,6 @@
 const listaDeTeclas = document.querySelectorAll('.tecla')
 const audios = document.querySelectorAll('audio')
+const corFundo = document.querySelectorAll('.corFundo')
 var notas = document.getElementById("CriarMusica")
 var nome = document.getElementById('NomeMusica')
 let TabelaMusicas = document.querySelector(".Musicas tbody")
@@ -7,14 +8,33 @@ let volume = document.querySelector("#volume")
 var Cronometro;
 let LogAcertos = []
 let GameLog = []
+let musicaTocando;
 
 listaDeTeclas.forEach(tecla => {
     tecla.setAttribute('onclick', "Reproduzir(this)");
 });
 
+document.querySelector(".teclado").classList.toggle('gameMode')
+document.querySelector(".tecla_pom").classList.toggle("gameMode")
+document.querySelector(".tecla_clap").classList.toggle("gameMode")
+document.querySelector(".tecla_tim").classList.toggle("gameMode")
+document.querySelector(".tecla_puff").classList.toggle("gameMode")
+document.querySelector(".tecla_splash").classList.toggle("gameMode")
+document.querySelector(".tecla_toim").classList.toggle("gameMode")
+document.querySelector(".tecla_tic").classList.toggle("gameMode")
+document.querySelector(".tecla_tom").classList.toggle("gameMode")
+document.querySelector(".tecla_psh").classList.toggle("gameMode")
+
+
+
 document.addEventListener('keydown', (event) => {
     for (let i = 0; i < listaDeTeclas.length; i++) {
-        if (event.key == (NotasData[i])) {
+        if (event.key.toLowerCase() == listaDeTeclas[i].id) {
+            corFundo[i].classList.add('act')
+            setTimeout(() => {
+                corFundo[i].classList.remove('act')
+            }, 200);
+
             if (!LogAcertos.length) {
                 TempoAtual = (new Date()).getTime();
                 Cronometro = LogAcertos.push((new Date(0)).getTime());
@@ -22,9 +42,18 @@ document.addEventListener('keydown', (event) => {
             else {
                 LogAcertos.push(new Date().getTime() - TempoAtual);
             }
-            if (LogAcertos[i] <= LogData[i] && LogAcertos[i] >= LogData[i] - 250) {
-
+            if (listaDeTeclas[i] == musicaTocando.Notas[i]) {
+                if (LogAcertos[i] <= musicaTocando.Log[i] && LogAcertos[i] >= musicaTocando.Log[i] - 250) {
+                    console.log("Acertos: ", LogAcertos[i], "Log: ", musicaTocando.Log[i])
+                }
             }
+        }
+
+        if (event.code.toLowerCase() == listaDeTeclas[i].id) {
+            corFundo[i].classList.add('act')
+            setTimeout(() => {
+                corFundo[i].classList.remove('act')
+            }, 200);
         }
     }
 }, false);
@@ -42,22 +71,18 @@ const Storage = {
 const MusicConfig = {
 
     TocaMusica(NotasData, LogData) {
-
         for (let i = 0; i < NotasData.length; i++) {
-
             GameLog.push(LogData[i])
 
-            console.log("Game", GameLog[i])
-            console.log("Data", LogData[i])
+            GameLog[0] = 100
 
             let div = document.createElement('div')
 
-            div.innerHTML = `<div style="z-index:${i}" class="teclaImg teclaImg${i}">${NotasData[i]}</div>`
+            div.innerHTML = `<div  class="teclaImg teclaImg${i}">${NotasData[i]}</div>`
 
-            listaDeTeclas[NotasData[i] - 1].appendChild(div)
+            listaDeTeclas[NotasData[i] - 1].append(div)
 
             setTimeout(() => {
-
                 document.querySelector(`.teclaImg${i}`).classList.toggle('gamefic')
 
                 setTimeout(() => {
@@ -67,9 +92,8 @@ const MusicConfig = {
 
             setTimeout(() => {
                 Reproduzir(listaDeTeclas[NotasData[i] - 1])
-                if (i + 1 == NotasData.length) {
-                    document.querySelector(".Musicas").classList.remove('gameMode')
-                    document.querySelector(".teclado").classList.remove('gameMode')
+                if (i == NotasData.length - 1) {
+                    document.querySelector(".Musicas").classList.toggle('gameMode')
 
                     App.reload()
                 }
@@ -80,18 +104,9 @@ const MusicConfig = {
     },
 
     Play(index) {
+        document.querySelector(".Musicas").classList.toggle('gameMode')
         document.querySelector('.modal-overlay').classList.toggle('active')
-        document.querySelector(".Musicas").classList.add('gameMode')
-        document.querySelector(".teclado").classList.add('gameMode')
-        document.querySelector(".tecla_pom").classList.add("gameMode")
-        document.querySelector(".tecla_clap").classList.add("gameMode")
-        document.querySelector(".tecla_tim").classList.add("gameMode")
-        document.querySelector(".tecla_puff").classList.add("gameMode")
-        document.querySelector(".tecla_splash").classList.add("gameMode")
-        document.querySelector(".tecla_toim").classList.add("gameMode")
-        document.querySelector(".tecla_tic").classList.add("gameMode")
-        document.querySelector(".tecla_tom").classList.add("gameMode")
-        document.querySelector(".tecla_psh").classList.add("gameMode")
+
         document.querySelector(".modal").innerHTML = 3
         setTimeout(() => {
             document.querySelector(".modal").innerHTML = 2
@@ -103,7 +118,7 @@ const MusicConfig = {
                         document.querySelector('.modal-overlay').classList.toggle('active')
                         setTimeout(() => {
                             MusicConfig.Game(index)
-                        }, 2000);
+                        }, 0);
                     }, 1000);
                 }, 1000);
             }, 1000);
@@ -113,6 +128,7 @@ const MusicConfig = {
     Game(index) {
         MusicConfig.ListaMusicas.forEach((musica, i) => {
             if (index == i) {
+                musicaTocando = musica
                 MusicConfig.TocaMusica(musica.Notas, musica.Log)
             }
         });
@@ -160,8 +176,6 @@ const App = {
 
 App.init()
 
-volume.oninput = () => {
-    audios.forEach(x => {
-        x.volume = .3
-    })
-}
+audios.forEach(x => {
+    x.volume = .3
+})
