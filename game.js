@@ -29,6 +29,7 @@ document.querySelector(".tecla_psh").classList.toggle("gameMode")
 
 document.addEventListener('keydown', (event) => {
     for (let i = 0; i < listaDeTeclas.length; i++) {
+
         if (event.key.toLowerCase() == listaDeTeclas[i].id) {
             corFundo[i].classList.add('act')
             setTimeout(() => {
@@ -42,7 +43,9 @@ document.addEventListener('keydown', (event) => {
             else {
                 LogAcertos.push(new Date().getTime() - TempoAtual);
             }
-            if (listaDeTeclas[i] == musicaTocando.Notas[i]) {
+            console.log(i + 1)
+            console.log(musicaTocando.Notas[i])
+            if (i + 1 == musicaTocando.Notas[i]) {
                 if (LogAcertos[i] <= musicaTocando.Log[i] && LogAcertos[i] >= musicaTocando.Log[i] - 250) {
                     console.log("Acertos: ", LogAcertos[i], "Log: ", musicaTocando.Log[i])
                 }
