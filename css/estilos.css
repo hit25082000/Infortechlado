@@ -382,8 +382,7 @@ input[type="text"]:focus {
 
 .teclaImg.gamefic {
   transform: translateY(-120px);
-  transition: all 2s;
-  animation-timing-function: cubic-bezier(0, 1.09, .51, .5);
+  transition: all 5s linear;
   opacity: 1;
 }
 
@@ -420,24 +419,17 @@ input[type="text"]:focus {
   order: 3
 }
 
-.corFundo {
-  height: 120px;
-  width: 120px;
+.tecla.act {
   background-color: rgb(16, 201, 63);
-  transform: translateY(-120px);
-  border-radius: 30px;
-  line-height: 120px;
-  text-align: center;
-  opacity: 0;
-  position: fixed;
-}
-
-.corFundo.act {
-  opacity: 1;
   outline: none;
   box-shadow: none;
   transition: none;
   box-shadow: 3px 3px 0 var(--vermelha-escura) inset;
   color: rgb(250, 250, 250);
   box-shadow: 3px 3px 0 var(--vermelha-escura) inset, 1px 1px 10px green;
+}
+
+.acerto {
+  background-color: red;
+  transition: none;
 }
