@@ -20,18 +20,13 @@ document.addEventListener('keydown', (event) => {
 
             anime(listaDeTeclas[i], 'act')
 
-            if (!logAcertos.length) {
-                acerto = (new Date(0)).getTime();
-                logAcertos.push(acerto)
-            }
-            else {
-                acerto = (new Date().getTime() - TempoAtual);
-                logAcertos.push(acerto)
-            }
+
+            acerto = (new Date().getTime() - TempoAtual);
+            logAcertos.push(acerto)
+
 
             let proxLog = musicaTocando.Log.find(x => x >= acerto)
             let proxNota = musicaTocando.Notas.find(x => x === musicaTocando.Notas[musicaTocando.Log.indexOf(proxLog)])
-            console.log(musicaTocando.Log.indexOf(proxLog))
 
             if (i + 1 == proxNota && acerto <= proxLog && acerto >= proxLog - 250) {
                 console.log("ACERTOU: ", acerto, "Log: ", proxLog, "Nota", proxNota)
