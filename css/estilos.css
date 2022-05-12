@@ -1,27 +1,58 @@
-:root {
-  --cinza: #aaa;
-  --vermelha: #e93d50;
-  --vermelha-escura: #af303f;
-  --branca: #fff;
-  --luz: rgb(229, 255, 0);
-}
-
+/*header*/
 .TituloPrincipal {
   font-size: 4em;
   color: white;
   align-self: flex-start;
 }
 
-main {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+#volume {
+  margin-top: 50px;
 }
 
+input[type="text"] {
+  width: 30vw;
+  margin: 5px;
+  padding: 5px;
+  outline: none;
+  color: white;
+  background-color: #2220;
+  border-bottom: 2px solid white;
+  transition: ease-in-out 1s;
+}
+
+input[type="text"]:focus {
+  transform: scale(1.01);
+}
+
+input[type="button"] {
+  padding: .5px 1em;
+  display: inline;
+  margin: 10px;
+  flex-direction: row;
+  transition: all .3s ease;
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: .25rem;
+}
+
+input[type="button"]:hover {
+  box-shadow: none;
+  transform: translateY(1.5px);
+  text-shadow: #000000;
+  background-color: #DD1c1a;
+  color: white;
+  cursor: pointer;
+}
+
+/*Modal*/
 .modal-overlay {
   width: 110%;
   height: 100%;
 
-  background-color: rgba(0, 0, 0);
+  background-color: rgba(0, 0, 0, .9);
 
   position: fixed;
   top: 0;
@@ -36,17 +67,72 @@ main {
   z-index: 999;
 }
 
+.modal {
+  font-size: 100px;
+  color: white;
+}
+
+#SalvarRank {
+  width: 450px;
+  height: 100px;
+  background-color: #f0c808;
+  color: #DD1c1a;
+  font-weight: bold;
+  font-size: xx-large;
+  align-self: center;
+}
+
+#SalvarRank:hover {
+  border-radius: 20em;
+  width: 250px;
+  border: #000 solid 2px;
+  background-color: rebeccapurple;
+  color: gre;
+}
+
+#NomeUsuario {
+  width: 500px;
+}
+
+.modalRank {
+  font-size: 20px;
+  color: white;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.labelNomeUsuario {
+  margin-top: 50px;
+}
+
+.modalRank h2 {
+  text-align: center;
+  margin-bottom: 50px;
+  background-color: #f0c808;
+  border-radius: 20em;
+  color: #DD1c1a;
+}
+
 .modal-overlay.active {
   opacity: 1;
   visibility: visible;
+  align-self: center;
 }
 
 .modal {
-  background: #F0F2f50;
+  background: rgba(0, 0, 0, 0);
   padding: 2.4rem;
-
   position: relative;
   z-index: 1;
+}
+
+/*Main*/
+
+main {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 body {
@@ -76,21 +162,7 @@ body {
   }
 }
 
-.tecla,
-h1 {
-  font-size: small;
-  text-align: center;
-  font-family: 'Press Start 2P';
-  color: rgb(8, 8, 8);
-  text-shadow: #fff 0 0 4px,
-    yellow 0 -5px 10px,
-    orange 0 -15px 20px,
-    red 0 -25px 50px;
-}
-
-#volume {
-  margin-top: 50px;
-}
+/*teclado*/
 
 .teclado {
   margin-bottom: 20px;
@@ -104,6 +176,19 @@ h1 {
   align-self: center;
   transition: 2s ease-in all;
 }
+
+.tecla,
+h1 {
+  font-size: small;
+  text-align: center;
+  font-family: 'Press Start 2P';
+  color: rgb(8, 8, 8);
+  text-shadow: #fff 0 0 4px,
+    yellow 0 -5px 10px,
+    orange 0 -15px 20px,
+    red 0 -25px 50px;
+}
+
 
 .tecla_pom,
 .tecla_clap,
@@ -123,28 +208,7 @@ h1 {
   order: 1
 }
 
-input[type="button"] {
-  padding: .5px 1em;
-  display: inline;
-  margin: 10px;
-  flex-direction: row;
-  transition: all .3s ease;
-  transition-property: all;
-  transition-duration: 0.3s;
-  transition-timing-function: ease;
-  transition-delay: 0s;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  border-radius: .25rem;
-}
-
-input[type="button"]:hover {
-  box-shadow: none;
-  transform: translateY(1.5px);
-  text-shadow: #000000;
-  background-color: #DD1c1a;
-  color: white;
-  cursor: pointer;
-}
+/*table */
 
 table thead tr th:first-child,
 tfoot tr td:first-child {
@@ -157,52 +221,6 @@ table tbody tr td:first-child {
 
 table tbody tr td:last-child {
   border-radius: 0 0.25rem 0.25rem 0;
-}
-
-.checkbox {
-  display: flex;
-  align-items: center;
-  font-size: 2rem;
-  cursor: pointer;
-}
-
-.checkbox input {
-  display: none;
-}
-
-.checkbox input:checked~.checkbox__mark svg {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
-}
-
-.checkbox__mark {
-  position: relative;
-  width: 2rem;
-  height: 2rem;
-  border: 0.2rem solid #000;
-}
-
-.checkbox__mark svg {
-  position: absolute;
-
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.5);
-  transition: all ease 0.2s;
-  opacity: 0;
-}
-
-.checkbox--disabled {
-  color: grey;
-  pointer-events: none;
-}
-
-.checkbox--disabled .checkbox__mark {
-  border-color: grey;
-}
-
-.checkbox--disabled .checkbox__mark {
-  border-color: grey;
 }
 
 table thead tr th:last-child {
@@ -224,7 +242,6 @@ table tbody td {
   font-weight: bold;
   transition: cubic-bezier(12);
 }
-
 
 tfoot tr td {
   text-align: center;
@@ -250,6 +267,7 @@ tfoot td {
 
   50% {
     background: #ED4B40;
+    color: rgb(255, 0, 212);
   }
 
   75% {
@@ -267,7 +285,7 @@ table tbody td:hover {
   transform: translateY(1px);
   background-color: #f0c808;
   outline: none;
-  box-shadow: 1px 1px 10px var(--luz);
+  box-shadow: 1px 1px 10px var(rgb(229, 255, 0));
 }
 
 table tfoot td:hover,
@@ -296,7 +314,6 @@ table tbody td:last-child:hover {
   border-collapse: separate;
   border-spacing: 0 5px;
   transition: 2s ease-in-out all;
-
 }
 
 img {
@@ -308,21 +325,6 @@ img {
   justify-content: center;
   flex-direction: column;
   align-items: center;
-}
-
-input[type="text"] {
-  width: 30vw;
-  margin: 5px;
-  padding: 5px;
-  outline: none;
-  color: white;
-  background-color: #2220;
-  border-bottom: 2px solid white;
-  transition: ease-in-out 1s;
-}
-
-input[type="text"]:focus {
-  transform: scale(1.01);
 }
 
 .tecla {
@@ -341,7 +343,7 @@ input[type="text"]:focus {
 .tecla:active {
   background-color: #DD1c1a;
   border: 4px solid #DD1c1a;
-  box-shadow: 3px 3px 0 var(--vermelha-escura) inset;
+  box-shadow: 3px 3px 0 var(#af303f) inset;
   color: rgb(250, 250, 250);
   outline: none;
   box-shadow: none;
@@ -356,19 +358,21 @@ input[type="text"]:focus {
 .tecla.focus,
 .tecla:focus {
   outline: none;
-  box-shadow: 1px 1px 10px var(--luz);
+  box-shadow: 1px 1px 10px var(rgb(229, 255, 0));
 }
 
 .tecla.active:focus,
 .tecla:active:focus {
-  box-shadow: 3px 3px 0 var(--vermelha-escura) inset, 1px 1px 10px var(--luz);
+  box-shadow: 3px 3px 0 var(#af303f) inset, 1px 1px 10px var(rgb(229, 255, 0));
 }
+
+/*Game*/
 
 .teclaImg {
   position: fixed;
   border: .5px solid rgb(5, 222, 238);
   color: white;
-  background-color: #4286F3;
+  background-color: rgb(229, 255, 0);
   height: 120px;
   width: 120px;
   border-radius: 30px;
@@ -384,11 +388,6 @@ input[type="text"]:focus {
   transform: translateY(-120px);
   transition: all 5s linear;
   opacity: 1;
-}
-
-.modal {
-  font-size: 100px;
-  color: white;
 }
 
 .Musicas.gameMode {
@@ -420,16 +419,31 @@ input[type="text"]:focus {
 }
 
 .tecla.act {
-  background-color: rgb(16, 201, 63);
+  background-color: rgb(250, 0, 0);
   outline: none;
-  box-shadow: none;
   transition: none;
-  box-shadow: 3px 3px 0 var(--vermelha-escura) inset;
+  box-shadow: 3px 3px 0 var(#af303f) inset;
   color: rgb(250, 250, 250);
-  box-shadow: 3px 3px 0 var(--vermelha-escura) inset, 1px 1px 10px green;
+  box-shadow: 3px 3px 0 var(#af303f) inset, 1px 1px 10px green;
+  transform: translateY(1.5px);
 }
 
-.acerto {
-  background-color: red;
-  transition: none;
+.tecla.perfeito {
+  background-color: blue;
+  transform: scale(1.1) translateY(1.5px);
+  box-shadow: 3px 3px 0 var(#af303f) inset;
+  box-shadow: 1px 1px 10px var(rgb(229, 255, 0));
+  text-shadow: #000000;
+  color: rgb(250, 250, 250);
+  outline: none;
+}
+
+.tecla.bom {
+  background-color: rgb(43, 255, 0);
+  transform: translateY(1.5px);
+  box-shadow: 3px 3px 0 var(#af303f) inset;
+  box-shadow: 1px 1px 10px var(rgb(229, 255, 0));
+  text-shadow: #000000;
+  color: rgb(250, 250, 250);
+  outline: none;
 }
