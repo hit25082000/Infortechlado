@@ -108,11 +108,13 @@ input[type="button"]:hover {
 }
 
 .modalRank h2 {
-  text-align: center;
-  margin-bottom: 50px;
-  background-color: #f0c808;
-  border-radius: 20em;
-  color: #DD1c1a;
+  width: 450px;
+  height: 100px;
+  background-color: #DD1c1a;
+  color: #f0c808;
+  font-weight: bold;
+  font-size: xx-large;
+  align-self: center;
 }
 
 .modal-overlay.active {
@@ -133,6 +135,8 @@ input[type="button"]:hover {
 main {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-flow: column;
+
 }
 
 body {
@@ -208,18 +212,20 @@ h1 {
   order: 1
 }
 
-/*table */
+/*table*/
 
-table thead tr th:first-child,
+.Musicas thead tr th:first-child,
 tfoot tr td:first-child {
   border-radius: 0.25rem .25rem .25rem 0.25rem;
 }
 
-table tbody tr td:first-child {
+table tbody tr td:first-child,
+.Ranks thead tr th:first-child {
   border-radius: 0.25rem 0 0 0.25rem;
 }
 
-table tbody tr td:last-child {
+table tbody tr td:last-child,
+.Ranks thead tr th:last-child {
   border-radius: 0 0.25rem 0.25rem 0;
 }
 
@@ -243,7 +249,8 @@ table tbody td {
   transition: cubic-bezier(12);
 }
 
-tfoot tr td {
+tfoot tr td,
+.Ranks tr td {
   text-align: center;
 }
 
@@ -285,7 +292,12 @@ table tbody td:hover {
   transform: translateY(1px);
   background-color: #f0c808;
   outline: none;
+  font-weight: bold;
   box-shadow: 1px 1px 10px var(rgb(229, 255, 0));
+}
+
+.Ranks tbody td:last-child:hover {
+  color: #f0c808;
 }
 
 table tfoot td:hover,
@@ -308,6 +320,15 @@ table tbody td:last-child:hover {
 }
 
 .Musicas {
+  margin: 10px;
+  color: #222;
+  align-self: start;
+  border-collapse: separate;
+  border-spacing: 0 5px;
+  transition: 2s ease-in-out all;
+}
+
+.Ranks {
   margin: 10px;
   color: #222;
   align-self: start;
@@ -366,13 +387,13 @@ img {
   box-shadow: 3px 3px 0 var(#af303f) inset, 1px 1px 10px var(rgb(229, 255, 0));
 }
 
-/*Game*/
+/*GameMode*/
 
 .teclaImg {
   position: fixed;
   border: .5px solid rgb(5, 222, 238);
   color: white;
-  background-color: rgb(229, 255, 0);
+  background-color: rgba(255, 0, 255, 1);
   height: 120px;
   width: 120px;
   border-radius: 30px;
@@ -391,10 +412,14 @@ img {
 }
 
 .Musicas.gameMode {
-  transform: translateX(-450px);
+  transform: translateY(-1000px);
 }
 
-.gameMode.teclado {
+.Ranks.gameMode {
+  transform: translateY(-1000px);
+}
+
+.teclado.gameMode {
   grid-template-columns: repeat(1, 1fr);
   grid-auto-flow: column;
   transform: translateY(350px);

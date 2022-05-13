@@ -1,13 +1,14 @@
 const listaDeTeclas = document.querySelectorAll('.tecla')
 const audios = document.querySelectorAll('audio')
-let TabelaMusicas = document.querySelector(".Musicas tbody")
+let tabelaMusicas = document.querySelector(".Musicas tbody")
+let tabelaRanks = document.querySelector(".Ranks tbody")
 let logAcertos = []
 let GameLog = []
 var musicaTocando = {
     Log: [],
     Notas: []
 };
-let pontos;
+let pontos = 0;
 let acerto;
 
 listaDeTeclas.forEach(tecla => {
@@ -58,12 +59,19 @@ document.addEventListener('keydown', (event) => {
 }, false);
 
 const Storage = {
-    get() {
+    getMusica() {
         return JSON.parse(localStorage.getItem("MusicConfig")) || []
     },
 
-    set(musicas) {
+    getRank() {
+        return JSON.parse(localStorage.getItem("Ranks")) || []
+    },
+
+    setMusica(musicas) {
         localStorage.setItem("MusicConfig", JSON.stringify(musicas))
+    },
+    setRank(rank) {
+        localStorage.setItem("Ranks", JSON.stringify(rank))
     }
 }
 
@@ -92,7 +100,6 @@ const MusicConfig = {
                 if (i == 0) {
                     TempoAtual = new Date().getTime() + 5000;
                 }
-                console.log(TempoAtual)
                 setTimeout(() => {
                     div.remove()
                 }, 5000);
@@ -101,25 +108,17 @@ const MusicConfig = {
             setTimeout(() => {
                 if (i == NotasData.length - 1) {
                     setTimeout(() => {
-                        console.log(logAcertos)
+                        logAcertos.forEach(e => {
+                            pontos += e
+                        });
+
                         document.querySelector(".Musicas").classList.toggle('gameMode')
-
-                        if (logAcertos.length == 0) {
-                            pontos = 0
-                        }
-                        if (logAcertos.length == 1) {
-                            pontos = logAcertos[0]
-                        }
-                        if (logAcertos.length > 1) {
-                            for (let index = 0; index <= logAcertos.length; index++)
-                                pontos += logAcertos[i]
-                        }
-
+                        document.querySelector(".Ranks").classList.toggle('gameMode')
                         document.querySelector('.modal-overlay').classList.toggle('active')
 
                         document.querySelector(".modalRank").innerHTML = `
                         <h2>CLASSIFICAÇÃO</h2>
-                        <p> Voçe fez: <strong>${pontos} pontos </strong></p>
+                        <p> Voçe fez: ${pontos} pontos </p>
                         <p>Na musica : <strong>${musicaTocando.Name}</strong></p>
                         <label for="NomeUsuario" class="labelNomeUsuario">Insira seu nome e salve seu resultado</label>
                         <input type="text" id="NomeUsuario" placeholder=""><br>
@@ -135,6 +134,7 @@ const MusicConfig = {
 
     play(index) {
         document.querySelector(".Musicas").classList.toggle('gameMode')
+        document.querySelector(".Ranks").classList.toggle('gameMode')
         document.querySelector('.modal-overlay').classList.toggle('active')
 
         document.querySelector(".modal").innerHTML = 3
@@ -158,21 +158,25 @@ const MusicConfig = {
     },
 
     procuraMusica(index) {
-        MusicConfig.ListaMusicas.forEach((musica, i) => {
+        MusicConfig.listaMusicas.forEach((musica, i) => {
             if (index == i) {
                 MusicConfig.tocaMusica(musica.Notas, musica.Log, musica.Name)
             }
         });
     },
 
-    remove(index) {
-        MusicConfig.ListaMusicas.splice(index, 1)
+    removeMusica(index) {
+        MusicConfig.listaMusicas.splice(index, 1)
+        App.reload()
+    },
+    removeRank(index) {
+        MusicConfig.listaRanks.splice(index, 1)
         App.reload()
     },
 
-    ListaMusicas: Storage.get(),
+    listaMusicas: Storage.getMusica(),
 
-    ListaRanks: Storage.get()
+    listaRanks: Storage.getRank()
 }
 
 function anime(element, classe) {
@@ -190,45 +194,63 @@ function reproduzir(tecla) {
     document.querySelector(`#som_tecla_${som.toLowerCase()}`).play();
 }
 
-function exibir(musica, index) {
+function exibirMusicas(musica, index) {
     let tr = document.createElement('tr')
 
     tr.innerHTML = `
     <td onclick="MusicConfig.play(${index})" style="cursor: pointer;" >${musica.Name} </td>
-    <td onclick="MusicConfig.remove(${index})" style="cursor: pointer;">
+    <td onclick="MusicConfig.removeMusica(${index})" style="cursor: pointer;">
      <img width="5" heigh="5"  src="./images/657059.png" alt=""> 
      </td>
     `
-    TabelaMusicas.appendChild(tr)
+    tabelaMusicas.appendChild(tr)
+}
+
+function exibirRanks(rank, index) {
+    let tr = document.createElement('tr')
+    let pontuacao = 0
+    rank.logAcertos.forEach(e => {
+        pontuacao += e
+    });
+
+    tr.innerHTML = `
+    <td> ${rank.nome} </td>
+    <td> ${rank.musica} </td>
+    <td onclick="MusicConfig.removeRank(${index})">  ${pontuacao} </td>`
+
+    tabelaRanks.appendChild(tr)
 }
 
 class Rank {
-    constructor(logAcertos, Nome, Musica) {
-        this.Nome = Nome
-        this.Musica = Musica
+    constructor(logAcertos, nome, musica) {
+        this.nome = nome
+        this.musica = musica
         this.logAcertos = logAcertos
-        MusicConfig.ListaRanks.push(this)
+        MusicConfig.listaRanks.push(this)
     }
 }
 
 function SalvarRank() {
     document.querySelector('.modal-overlay').classList.toggle('active')
-    let Nome = document.querySelector("#NomeUsuario")
+    let nome = document.querySelector("#NomeUsuario")
 
-    new Rank(logAcertos, Nome, musicaTocando.Name)
-    Storage.set(MusicConfig.ListaRanks)
+    new Rank(logAcertos, nome.value, musicaTocando.Name)
+    Storage.setRank(MusicConfig.listaRanks)
 
     App.reload()
 }
 
 const App = {
     init() {
-        Storage.set(MusicConfig.ListaMusicas)
-        MusicConfig.ListaMusicas.forEach(exibir)
+        Storage.setMusica(MusicConfig.listaMusicas)
+        Storage.setRank(MusicConfig.listaRanks)
+        MusicConfig.listaMusicas.forEach(exibirMusicas)
+        MusicConfig.listaRanks.forEach(exibirRanks)
     },
 
     reload() {
-        TabelaMusicas.innerHTML = ""
+        tabelaMusicas.innerHTML = ""
+        tabelaRanks.innerHTML = ""
         App.init()
     }
 }
