@@ -87,7 +87,6 @@ input[type="button"]:hover {
   width: 250px;
   border: #000 solid 2px;
   background-color: rebeccapurple;
-  color: gre;
 }
 
 #NomeUsuario {
@@ -108,13 +107,14 @@ input[type="button"]:hover {
 }
 
 .modalRank h2 {
+  border-radius: 20em;
   width: 450px;
   height: 100px;
-  background-color: #DD1c1a;
   color: #f0c808;
   font-weight: bold;
   font-size: xx-large;
   align-self: center;
+  text-align: center;
 }
 
 .modal-overlay.active {
@@ -335,6 +335,18 @@ table tbody td:last-child:hover {
   border-collapse: separate;
   border-spacing: 0 5px;
   transition: 2s ease-in-out all;
+}
+
+.Ranks tbody tr:nth-child(2) td {
+  background-color: #a2a7a5;
+}
+
+.Ranks tbody tr:nth-child(1) td {
+  background-color: #FFAA00;
+}
+
+.Ranks tbody tr:nth-child(3) td {
+  background-color: #744209;
 }
 
 img {

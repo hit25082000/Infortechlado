@@ -118,8 +118,8 @@ const MusicConfig = {
 
                         document.querySelector(".modalRank").innerHTML = `
                         <h2>CLASSIFICAÇÃO</h2>
-                        <p> Voçe fez: ${pontos} pontos </p>
-                        <p>Na musica : <strong>${musicaTocando.Name}</strong></p>
+                        <p> Voçe fez: <strong style="color:red"> ${pontos}</strong> pontos </p>
+                        <p>Na musica: <strong style="color:red">${musicaTocando.Name}</strong></p>
                         <label for="NomeUsuario" class="labelNomeUsuario">Insira seu nome e salve seu resultado</label>
                         <input type="text" id="NomeUsuario" placeholder=""><br>
                         <input type="button" id="SalvarRank" onclick="SalvarRank(this)" value="Salvar">`
@@ -208,35 +208,40 @@ function exibirMusicas(musica, index) {
 
 function exibirRanks(rank, index) {
     let tr = document.createElement('tr')
-    let pontuacao = 0
-    rank.logAcertos.forEach(e => {
-        pontuacao += e
-    });
+
 
     tr.innerHTML = `
     <td> ${rank.nome} </td>
     <td> ${rank.musica} </td>
-    <td onclick="MusicConfig.removeRank(${index})">  ${pontuacao} </td>`
+    <td onclick="MusicConfig.removeRank(${index})">  ${rank.pontos} </td>`
 
     tabelaRanks.appendChild(tr)
 }
 
 class Rank {
-    constructor(logAcertos, nome, musica) {
+    constructor(pontos, nome, musica) {
         this.nome = nome
         this.musica = musica
-        this.logAcertos = logAcertos
+        this.pontos = pontos
+        MusicConfig.listaRanks.forEach((e, i) => {
+            if (this.nome == e.nome)
+                if (this.musica == e.musica)
+                    if (this.pontos == e.pontos)
+                        removeRank(MusicConfig.listaRanks.indexOf(i))
+        });
         MusicConfig.listaRanks.push(this)
     }
 }
 
 function SalvarRank() {
     document.querySelector('.modal-overlay').classList.toggle('active')
+    document.querySelector(".modalRank").innerHTML = ""
     let nome = document.querySelector("#NomeUsuario")
 
-    new Rank(logAcertos, nome.value, musicaTocando.Name)
+    new Rank(pontos, nome.value, musicaTocando.Name)
     Storage.setRank(MusicConfig.listaRanks)
 
+    pontos = 0
     App.reload()
 }
 
@@ -245,7 +250,14 @@ const App = {
         Storage.setMusica(MusicConfig.listaMusicas)
         Storage.setRank(MusicConfig.listaRanks)
         MusicConfig.listaMusicas.forEach(exibirMusicas)
+
+        MusicConfig.listaRanks.sort((a, b) => {
+
+            return (a.pontos < b.pontos) ? 1 : -1
+        })
+
         MusicConfig.listaRanks.forEach(exibirRanks)
+
     },
 
     reload() {
