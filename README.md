@@ -1,4 +1,4 @@
-﻿# Alura-JS
+﻿# Infortechlado
 
 ## Aprendizado
 
