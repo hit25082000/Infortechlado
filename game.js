@@ -42,14 +42,21 @@ document.addEventListener('keydown', (event) => {
                     if ((logAcertos[logAcertos.length - 2]) > 0 && (logAcertos[logAcertos.length - 3]) > 0) {
                         let div = document.createElement("div")
                         div.innerHTML = `
-                        <div class="teclaImg teclaImg${i}" ><img id="thunder" width="300px" src="images/home-unyc.gif"></div > 
+                        <div class="teclaImg teclaImg${i}" >
+                        <img id="thunder" src="images/lightning-bolt-lightning-gif-background-nature-outdoors-thunderstorm-mountain-transparent-png-1562006.png" alt="">
+                        <img id="thunder" src="images/top-upward-lightning-slow-motion-stickers-for-android-amp-ios-gfycat.gif" alt="">
+                        <img id="thunder" src="images/thunder_PNG22.png" alt="">
+                        </div > 
                         `
+                        listaDeTeclas[proxNota - 1].appendChild(div)
                         gameBG.classList.add("combo")
                         anime(listaDeTeclas[i], "comboTecla", 200)
-                        listaDeTeclas[proxNota - 1].appendChild(div)
+
+                        anime(div, "on", 200)
+
                         setTimeout(() => {
                             div.remove()
-                        }, 500);
+                        }, 200);
                     }
                 } else {
                     gameBG.classList.remove("combo")

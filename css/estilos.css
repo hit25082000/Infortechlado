@@ -570,5 +570,10 @@ img {
   position: fixed;
   width: 500px;
   transform: scaleX(-1) rotate(180deg) translate(-100px, -825px);
-  filter: invert(100%);
+  transition: linear 1s;
+  object-fit: cover;
+}
+
+#thunder.on {
+  opacity: 1;
 }
