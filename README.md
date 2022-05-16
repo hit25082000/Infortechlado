@@ -119,4 +119,4 @@ tocaMusica(NotasData, LogData, Name) {
     
 > e conseguindo implementar isso é possivel decidir o que fazer com acertos e quase acertos do jogador
 
-### Sobrando talvez um bug onde a tecla pressionada se não for a proxima tecla a ser reproduzida não ia contar portanto deve se segui a ordem de notas
+### Sobrando talvez um bug onde a tecla pressionada se não for a proxima tecla a ser reproduzida não ia contar portanto deve se seguir a ordem de notas
