@@ -16,11 +16,10 @@ listaDeTeclas.forEach(tecla => {
     tecla.classList.toggle("gameMode")
     document.querySelector(".teclado").classList.toggle('gameMode')
 });
-
 document.addEventListener('keydown', (event) => {
     for (let i = 0; i < listaDeTeclas.length; i++) {
         if (event.key.toLowerCase() == listaDeTeclas[i].id || event.code.toLowerCase() == listaDeTeclas[i].id) {
-            anime(listaDeTeclas[i], 'act')
+            anime(listaDeTeclas[i], 'act', 200)
             reproduzir(listaDeTeclas[i])
 
             acerto = (new Date().getTime() - TempoAtual);
@@ -34,7 +33,7 @@ document.addEventListener('keydown', (event) => {
                     musicaTocando.Notas.splice(musicaTocando.Log.indexOf(proxLog), 1)
                     musicaTocando.Log.splice(musicaTocando.Log.indexOf(proxLog), 1)
 
-                    anime(listaDeTeclas[i], 'perfeito')
+                    anime(listaDeTeclas[i], 'perfeito', 200)
 
                     logAcertos.push(3)
                 } else {
@@ -46,7 +45,7 @@ document.addEventListener('keydown', (event) => {
                     musicaTocando.Notas.splice(musicaTocando.Log.indexOf(proxLog), 1)
                     musicaTocando.Log.splice(musicaTocando.Log.indexOf(proxLog), 1)
 
-                    anime(listaDeTeclas[i], 'bom')
+                    anime(listaDeTeclas[i], 'bom', 200)
 
                     logAcertos.push(1)
                 } else {
@@ -108,8 +107,15 @@ const MusicConfig = {
             setTimeout(() => {
                 if (i == NotasData.length - 1) {
                     setTimeout(() => {
-                        logAcertos.forEach(e => {
-                            pontos += e
+                        logAcertos.forEach((e, i) => {
+                            if (logAcertos[i] > 0)
+                                pontos += e
+                            if (logAcertos[i] > 0 && logAcertos[i + 1] > 0)
+                                pontos += e * 2
+                            if (logAcertos[i] > 0 && logAcertos[i + 1] > 0 && logAcertos[i + 2] > 0)
+                                pontos += e * 3
+                            if (logAcertos[i] > 0 && logAcertos[i + 1] > 0 && logAcertos[i + 2] > 0 && logAcertos[i + 3] > 0)
+                                pontos += e * 4
                         });
 
                         document.querySelector(".Musicas").classList.toggle('gameMode')
@@ -179,11 +185,11 @@ const MusicConfig = {
     listaRanks: Storage.getRank()
 }
 
-function anime(element, classe) {
+function anime(element, classe, time) {
     element.classList.add(classe)
     setTimeout(() => {
         element.classList.remove(classe)
-    }, 200);
+    }, time);
 }
 
 function reproduzir(tecla) {
@@ -208,7 +214,6 @@ function exibirMusicas(musica, index) {
 
 function exibirRanks(rank, index) {
     let tr = document.createElement('tr')
-
 
     tr.innerHTML = `
     <td> ${rank.nome} </td>
@@ -235,12 +240,12 @@ class Rank {
 
 function SalvarRank() {
     document.querySelector('.modal-overlay').classList.toggle('active')
-    document.querySelector(".modalRank").innerHTML = ""
     let nome = document.querySelector("#NomeUsuario")
 
     new Rank(pontos, nome.value, musicaTocando.Name)
     Storage.setRank(MusicConfig.listaRanks)
 
+    document.querySelector(".modalRank").innerHTML = ""
     pontos = 0
     App.reload()
 }
