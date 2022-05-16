@@ -484,3 +484,91 @@ img {
   color: rgb(250, 250, 250);
   outline: none;
 }
+
+.combo {
+  align-items: center;
+  background: linear-gradient(180deg, #f0c808, #35a33a, rgb(6, 3, 184), #04c8e2);
+  background-size: 300% 300%;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  font-family: 'Montserrat', sans-serif;
+  animation: colors 5s ease infinite;
+}
+
+@keyframes colors {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 50% 100%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.comboTecla {
+  background: linear-gradient(180deg, rgb(6, 3, 184), #04c8e2);
+  animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+  transform: translate3d(10px, 10px, 10px), scale(1.5);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(3px, 3px) rotate(0deg);
+  }
+
+  10% {
+    transform: translate(-3px, -6px) rotate(-1deg);
+  }
+
+  20% {
+    transform: translate(-3px, 0px) rotate(1deg);
+  }
+
+  30% {
+    transform: translate(3px, 2px) rotate(0deg);
+  }
+
+  40% {
+    transform: translate(1px, -1px) rotate(1deg);
+  }
+
+  50% {
+    transform: translate(-1px, 2px) rotate(-1deg);
+  }
+
+  60% {
+    transform: translate(-3px, 1px) rotate(0deg);
+  }
+
+  70% {
+    transform: translate(3px, 1px) rotate(-1deg);
+  }
+
+  80% {
+    transform: translate(-1px, -1px) rotate(1deg);
+  }
+
+  90% {
+    transform: translate(1px, 2px) rotate(0deg);
+  }
+
+  100% {
+    transform: translate(1px, -2px) rotate(-1deg);
+  }
+}
+
+#thunder {
+  position: fixed;
+  width: 500px;
+  transform: scaleX(-1) rotate(180deg) translate(-100px, -825px);
+  filter: invert(100%);
+}

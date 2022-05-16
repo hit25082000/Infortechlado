@@ -2,6 +2,8 @@ const listaDeTeclas = document.querySelectorAll('.tecla')
 const audios = document.querySelectorAll('audio')
 let tabelaMusicas = document.querySelector(".Musicas tbody")
 let tabelaRanks = document.querySelector(".Ranks tbody")
+let gameBG = document.querySelector("#gameBG")
+let thunder = document.querySelector("#thunder")
 let logAcertos = []
 let GameLog = []
 var musicaTocando = {
@@ -25,6 +27,7 @@ document.addEventListener('keydown', (event) => {
             acerto = (new Date().getTime() - TempoAtual);
 
             let proxLog = musicaTocando.Log.find(x => x >= acerto)
+            let passLog = musicaTocando.Log.find(x => x <= acerto)
             let proxNota = musicaTocando.Notas.find(x => x === musicaTocando.Notas[musicaTocando.Log.indexOf(proxLog)])
 
             if (acerto >= proxLog - 300) {//Acerto PERFEITO
@@ -36,7 +39,20 @@ document.addEventListener('keydown', (event) => {
                     anime(listaDeTeclas[i], 'perfeito', 200)
 
                     logAcertos.push(3)
+                    if ((logAcertos[logAcertos.length - 2]) > 0 && (logAcertos[logAcertos.length - 3]) > 0) {
+                        let div = document.createElement("div")
+                        div.innerHTML = `
+                        <div class="teclaImg teclaImg${i}" ><img id="thunder" width="300px" src="images/home-unyc.gif"></div > 
+                        `
+                        gameBG.classList.add("combo")
+                        anime(listaDeTeclas[i], "comboTecla", 200)
+                        listaDeTeclas[proxNota - 1].appendChild(div)
+                        setTimeout(() => {
+                            div.remove()
+                        }, 500);
+                    }
                 } else {
+                    gameBG.classList.remove("combo")
                     logAcertos.push(0)
                 }
             } else if (acerto >= proxLog - 1000) {//Acerto BOM
@@ -48,8 +64,10 @@ document.addEventListener('keydown', (event) => {
                     anime(listaDeTeclas[i], 'bom', 200)
 
                     logAcertos.push(1)
+
                 } else {
                     logAcertos.push(0)
+
                 }
             }
 
@@ -89,7 +107,7 @@ const MusicConfig = {
 
             let div = document.createElement('div')
 
-            div.innerHTML = `<div  class="teclaImg teclaImg${i}">${NotasData[i]}</div>`
+            div.innerHTML = `<div class="teclaImg teclaImg${i}">${NotasData[i]}</div>`
 
             listaDeTeclas[NotasData[i] - 1].append(div)
 
@@ -204,11 +222,11 @@ function exibirMusicas(musica, index) {
     let tr = document.createElement('tr')
 
     tr.innerHTML = `
-    <td onclick="MusicConfig.play(${index})" style="cursor: pointer;" >${musica.Name} </td>
-    <td onclick="MusicConfig.removeMusica(${index})" style="cursor: pointer;">
-     <img width="5" heigh="5"  src="./images/657059.png" alt=""> 
-     </td>
-    `
+                                <td onclick="MusicConfig.play(${index})" style="cursor: pointer;" >${musica.Name} </td>
+                                <td onclick="MusicConfig.removeMusica(${index})" style="cursor: pointer;">
+                                    <img width="5" heigh="5" src="./images/657059.png" alt="">
+                                </td>
+                                `
     tabelaMusicas.appendChild(tr)
 }
 
@@ -216,9 +234,9 @@ function exibirRanks(rank, index) {
     let tr = document.createElement('tr')
 
     tr.innerHTML = `
-    <td> ${rank.nome} </td>
-    <td> ${rank.musica} </td>
-    <td onclick="MusicConfig.removeRank(${index})">  ${rank.pontos} </td>`
+                                <td> ${rank.nome} </td>
+                                <td> ${rank.musica} </td>
+                                <td onclick="MusicConfig.removeRank(${index})">  ${rank.pontos} </td>`
 
     tabelaRanks.appendChild(tr)
 }
