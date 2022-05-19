@@ -572,6 +572,7 @@ img {
   transform: scaleX(-1) rotate(180deg) translate(-100px, -825px);
   transition: linear 1s;
   object-fit: cover;
+  opacity: 0;
 }
 
 #thunder.on {

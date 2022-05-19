@@ -40,18 +40,10 @@ document.addEventListener('keydown', (event) => {
 
                     logAcertos.push(3)
                     if ((logAcertos[logAcertos.length - 2]) > 0 && (logAcertos[logAcertos.length - 3]) > 0) {
-                        let div = document.createElement("div")
-                        div.innerHTML = `
-                        <div class="teclaImg teclaImg${i}" >
-                        <img id="thunder" src="images/lightning-bolt-lightning-gif-background-nature-outdoors-thunderstorm-mountain-transparent-png-1562006.png" alt="">
-                        <img id="thunder" src="images/top-upward-lightning-slow-motion-stickers-for-android-amp-ios-gfycat.gif" alt="">
-                        <img id="thunder" src="images/thunder_PNG22.png" alt="">
-                        </div > 
-                        `
-                        listaDeTeclas[proxNota - 1].appendChild(div)
+                        let div = document.querySelector(`teclaImg${i}`)
+
                         gameBG.classList.add("combo")
                         anime(listaDeTeclas[i], "comboTecla", 200)
-
                         anime(div, "on", 200)
 
                         setTimeout(() => {
