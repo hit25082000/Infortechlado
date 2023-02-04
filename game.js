@@ -1,3 +1,4 @@
+//#region VARIAVEIS
 const listaDeTeclas = document.querySelectorAll('.tecla')
 const audios = document.querySelectorAll('audio')
 let tabelaMusicas = document.querySelector(".Musicas tbody")
@@ -12,67 +13,17 @@ var musicaTocando = {
 };
 let pontos = 0;
 let acerto;
+//#endregion
+
+audios.forEach(x => {
+    x.volume = .3
+})
 
 listaDeTeclas.forEach(tecla => {
     tecla.setAttribute('onclick', "reproduzir(this)");
     tecla.classList.toggle("gameMode")
     document.querySelector(".teclado").classList.toggle('gameMode')
 });
-document.addEventListener('keydown', (event) => {
-    for (let i = 0; i < listaDeTeclas.length; i++) {
-        if (event.key.toLowerCase() == listaDeTeclas[i].id || event.code.toLowerCase() == listaDeTeclas[i].id) {
-            anime(listaDeTeclas[i], 'act', 200)
-            reproduzir(listaDeTeclas[i])
-
-            acerto = (new Date().getTime() - TempoAtual);
-
-            let proxLog = musicaTocando.Log.find(x => x >= acerto)
-            let passLog = musicaTocando.Log.find(x => x <= acerto)
-            let proxNota = musicaTocando.Notas.find(x => x === musicaTocando.Notas[musicaTocando.Log.indexOf(proxLog)])
-
-            if (acerto >= proxLog - 300) {//Acerto PERFEITO
-                if (i + 1 == proxNota) {
-
-                    musicaTocando.Notas.splice(musicaTocando.Log.indexOf(proxLog), 1)
-                    musicaTocando.Log.splice(musicaTocando.Log.indexOf(proxLog), 1)
-
-                    anime(listaDeTeclas[i], 'perfeito', 200)
-
-                    logAcertos.push(3)
-                    if ((logAcertos[logAcertos.length - 2]) > 0 && (logAcertos[logAcertos.length - 3]) > 0) {
-                        let div = document.querySelector(`teclaImg${i}`)
-
-                        gameBG.classList.add("combo")
-                        anime(listaDeTeclas[i], "comboTecla", 200)
-                        anime(div, "on", 200)
-
-                        setTimeout(() => {
-                            div.remove()
-                        }, 200);
-                    }
-                } else {
-                    gameBG.classList.remove("combo")
-                    logAcertos.push(0)
-                }
-            } else if (acerto >= proxLog - 1000) {//Acerto BOM
-                if (i + 1 == proxNota) {
-
-                    musicaTocando.Notas.splice(musicaTocando.Log.indexOf(proxLog), 1)
-                    musicaTocando.Log.splice(musicaTocando.Log.indexOf(proxLog), 1)
-
-                    anime(listaDeTeclas[i], 'bom', 200)
-
-                    logAcertos.push(1)
-
-                } else {
-                    logAcertos.push(0)
-
-                }
-            }
-
-        }
-    }
-}, false);
 
 const Storage = {
     getMusica() {
@@ -86,12 +37,123 @@ const Storage = {
     setMusica(musicas) {
         localStorage.setItem("MusicConfig", JSON.stringify(musicas))
     },
+
     setRank(rank) {
         localStorage.setItem("Ranks", JSON.stringify(rank))
     }
 }
 
+document.addEventListener('keydown', (event) => {//Teclado
+    for (let i = 0; i < listaDeTeclas.length; i++) {
+        if (event.key.toLowerCase() == listaDeTeclas[i].id || event.code.toLowerCase() == listaDeTeclas[i].id) {
+            anime(listaDeTeclas[i], 'act', 200)
+            reproduzir(listaDeTeclas[i])
+
+            acerto = (new Date().getTime() - TempoAtual);
+            nota = event.key.toLocaleLowerCase()
+
+            let areaPerfeito = {
+                Log: [],
+                Notas: []
+            };
+            let areaBom = {
+                Log: [],
+                Notas: []
+            };
+
+            let proxLog = musicaTocando.Log.find(x => x >= acerto)
+
+            //let passLog = musicaTocando.Log.find(x => x <= acerto)
+            //let proxNota = musicaTocando.Notas.find(x => x === musicaTocando.Notas[musicaTocando.Log.indexOf(proxLog)])
+
+            musicaTocando.Log.forEach((e,i) => {
+                if(acerto <= e && e <= acerto + 250){
+                    areaPerfeito.Log.push(e)
+                    areaPerfeito.Notas.push(musicaTocando.Notas[i]);
+                }
+                else if(acerto <= e && e <= acerto + 750){
+                    areaBom.Log.push(e)
+                    areaBom.Notas.push(musicaTocando.Notas[i]);
+                }
+            });
+
+            let div = document.querySelector(`.teclaLog${proxLog}`);  
+            
+            console.log(areaBom.Notas.includes(i+1))
+
+            if (areaPerfeito.Log.length > 0 || areaBom.Log.length > 0) {//Acerto PERFEITO
+                
+                if (areaPerfeito.Notas.includes(i+1)) {
+                    musicaTocando.Notas.splice(musicaTocando.Log.indexOf(proxLog), 1)
+                    musicaTocando.Log.splice(musicaTocando.Log.indexOf(proxLog), 1)
+                    
+                    anime(listaDeTeclas[i], 'perfeito', 200)
+
+                    
+
+                    div.remove();
+                    logAcertos.push(3)
+                    if ((logAcertos[logAcertos.length - 2]) > 0 && (logAcertos[logAcertos.length - 3]) > 0) {
+                        gameBG.classList.add("combo")
+                        anime(listaDeTeclas[i], "comboTecla", 200)
+                        anime(div, "on", 200)                        
+                    }
+                } else if(areaBom.Log.length > 0){//Acerto BOM
+                    if (areaBom.Notas.includes(i+1)) {
+                        
+                        musicaTocando.Notas.splice(musicaTocando.Log.indexOf(proxLog), 1)
+                        musicaTocando.Log.splice(musicaTocando.Log.indexOf(proxLog), 1)
+                        
+                        anime(listaDeTeclas[i], 'bom', 200)
+                        
+                        div.remove();
+                        logAcertos.push(1)
+                    } else {
+                        div.remove();
+                        gameBG.classList.remove("combo")
+                        logAcertos.push(0)
+                    }
+                }
+                else{
+                    div.remove();
+                    gameBG.classList.remove("combo")
+                    logAcertos.push(0)
+                } 
+            }  
+            else{
+                div.remove();
+                gameBG.classList.remove("combo")
+                logAcertos.push(0)
+            }          
+        }
+    }
+}, false);
+
+function anime(element, classe, time) {
+    element.classList.add(classe)
+    setTimeout(() => {
+        element.classList.remove(classe)
+    }, time);
+}
+
+function reproduzir(tecla) {
+    let som = tecla.getAttribute("data-id")
+    if (document.querySelector(`#som_tecla_${som.toLowerCase()}`).currentTime > 0) {
+        document.querySelector(`#som_tecla_${som.toLowerCase()}`).currentTime = 0
+    }
+    document.querySelector(`#som_tecla_${som.toLowerCase()}`).play();
+}
+
 const MusicConfig = {
+
+    exibirMusicas(musica, index) {
+        let tr = document.createElement('tr')
+    
+        tr.innerHTML = `<td onclick="MusicConfig.play(${index})" style="cursor: pointer;" >${musica.Name} </td>
+                        <td onclick="MusicConfig.removeMusica(${index})" style="cursor: pointer;"><img width="5" heigh="5" src="./images/657059.png" alt=""></td>
+                        `
+        tabelaMusicas.appendChild(tr)
+    },
 
     tocaMusica(NotasData, LogData, Name) {
         for (let i = 0; i < NotasData.length; i++) {
@@ -106,7 +168,7 @@ const MusicConfig = {
 
             let div = document.createElement('div')
 
-            div.innerHTML = `<div class="teclaImg teclaImg${i}">${NotasData[i]}</div>`
+            div.innerHTML = `<div class="teclaImg teclaImg${i} teclaLog${musicaTocando.Log[i]}">${NotasData[i]}</div>`
 
             listaDeTeclas[NotasData[i] - 1].append(div)
 
@@ -145,7 +207,8 @@ const MusicConfig = {
                         <p>Na musica: <strong style="color:red">${musicaTocando.Name}</strong></p>
                         <label for="NomeUsuario" class="labelNomeUsuario">Insira seu nome e salve seu resultado</label>
                         <input type="text" id="NomeUsuario" placeholder=""><br>
-                        <input type="button" id="SalvarRank" onclick="SalvarRank(this)" value="Salvar">`
+                        <input type="button" id="SalvarRank" onclick="RankConfig.SalvarRank(this)" value="Salvar">
+                        <input type="button" id="CancelarRank" onclick="RankConfig.CancelarRank()" value="Cancelar">`
 
                     }, 2000);
                 }
@@ -191,53 +254,49 @@ const MusicConfig = {
     removeMusica(index) {
         MusicConfig.listaMusicas.splice(index, 1)
         App.reload()
+    },    
+
+    listaMusicas: Storage.getMusica()
+}
+
+const RankConfig = {
+
+    exibirRanks(rank, index) {
+        let tr = document.createElement('tr')
+    
+        tr.innerHTML = `<td> ${rank.nome} </td>
+                        <td> ${rank.musica} </td>
+                        <td onclick="RankConfig.removeRank(${index})">  ${rank.pontos} </td>`
+    
+        tabelaRanks.appendChild(tr)
     },
-    removeRank(index) {
-        MusicConfig.listaRanks.splice(index, 1)
+
+    SalvarRank() {
+        document.querySelector('.modal-overlay').classList.toggle('active')
+        let nome = document.querySelector("#NomeUsuario")
+    
+        new Rank(pontos, nome.value, musicaTocando.Name)
+        Storage.setRank(RankConfig.listaRanks)
+    
+        document.querySelector(".modalRank").innerHTML = ""
+        pontos = 0
         App.reload()
     },
 
-    listaMusicas: Storage.getMusica(),
+    removeRank(index) {
+        RankConfig.listaRanks.splice(index, 1)
+        App.reload()
+    },
+
+    CancelarRank() {
+        document.querySelector('.modal-overlay').classList.toggle('active')    
+    
+        document.querySelector(".modalRank").innerHTML = ""
+        pontos = 0
+        App.reload()
+    },
 
     listaRanks: Storage.getRank()
-}
-
-function anime(element, classe, time) {
-    element.classList.add(classe)
-    setTimeout(() => {
-        element.classList.remove(classe)
-    }, time);
-}
-
-function reproduzir(tecla) {
-    let som = tecla.getAttribute("data-id")
-    if (document.querySelector(`#som_tecla_${som.toLowerCase()}`).currentTime > 0) {
-        document.querySelector(`#som_tecla_${som.toLowerCase()}`).currentTime = 0
-    }
-    document.querySelector(`#som_tecla_${som.toLowerCase()}`).play();
-}
-
-function exibirMusicas(musica, index) {
-    let tr = document.createElement('tr')
-
-    tr.innerHTML = `
-                                <td onclick="MusicConfig.play(${index})" style="cursor: pointer;" >${musica.Name} </td>
-                                <td onclick="MusicConfig.removeMusica(${index})" style="cursor: pointer;">
-                                    <img width="5" heigh="5" src="./images/657059.png" alt="">
-                                </td>
-                                `
-    tabelaMusicas.appendChild(tr)
-}
-
-function exibirRanks(rank, index) {
-    let tr = document.createElement('tr')
-
-    tr.innerHTML = `
-                                <td> ${rank.nome} </td>
-                                <td> ${rank.musica} </td>
-                                <td onclick="MusicConfig.removeRank(${index})">  ${rank.pontos} </td>`
-
-    tabelaRanks.appendChild(tr)
 }
 
 class Rank {
@@ -245,52 +304,43 @@ class Rank {
         this.nome = nome
         this.musica = musica
         this.pontos = pontos
-        MusicConfig.listaRanks.forEach((e, i) => {
+        RankConfig.listaRanks.forEach((e, i) => {
             if (this.nome == e.nome)
                 if (this.musica == e.musica)
                     if (this.pontos == e.pontos)
-                        removeRank(MusicConfig.listaRanks.indexOf(i))
+                    RankConfig.removeRank(RankConfig.listaRanks.indexOf(i))
         });
-        MusicConfig.listaRanks.push(this)
+        RankConfig.listaRanks.push(this)
     }
 }
 
-function SalvarRank() {
-    document.querySelector('.modal-overlay').classList.toggle('active')
-    let nome = document.querySelector("#NomeUsuario")
-
-    new Rank(pontos, nome.value, musicaTocando.Name)
-    Storage.setRank(MusicConfig.listaRanks)
-
-    document.querySelector(".modalRank").innerHTML = ""
-    pontos = 0
-    App.reload()
+class Musica {    
+    constructor(Log, Notas) {
+        Log.push(Log);
+        Notas.push(Notas);            
+    }
 }
 
 const App = {
     init() {
         Storage.setMusica(MusicConfig.listaMusicas)
-        Storage.setRank(MusicConfig.listaRanks)
-        MusicConfig.listaMusicas.forEach(exibirMusicas)
+        Storage.setRank(RankConfig.listaRanks)
 
-        MusicConfig.listaRanks.sort((a, b) => {
+        MusicConfig.listaMusicas.forEach(MusicConfig.exibirMusicas)
+
+        RankConfig.listaRanks.sort((a, b) => {
 
             return (a.pontos < b.pontos) ? 1 : -1
         })
 
-        MusicConfig.listaRanks.forEach(exibirRanks)
-
+        RankConfig.listaRanks.forEach(RankConfig.exibirRanks)
     },
 
     reload() {
         tabelaMusicas.innerHTML = ""
         tabelaRanks.innerHTML = ""
-        App.init()
+        window.location.reload()       
     }
 }
 
 App.init()
-
-audios.forEach(x => {
-    x.volume = .3
-})

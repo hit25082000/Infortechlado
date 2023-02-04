@@ -1,3 +1,4 @@
+//#region  Variaveis
 const listaDeTeclas = document.querySelectorAll('.tecla')
 const audios = document.querySelectorAll('audio')
 var notas = document.getElementById("CriarMusica")
@@ -6,6 +7,7 @@ let TabelaMusicas = document.querySelector(".Musicas tbody")
 let volume = document.querySelector("#volume")
 var Cronometro;
 let LogVelocidade = []
+//#endregion
 
 volume.oninput = () => {
     audios.forEach(x => {

@@ -1,4 +1,9 @@
 /*header*/
+body{
+  overflow-x: hidden!important;
+  overflow-y: hidden!important;
+}
+
 .TituloPrincipal {
   font-size: 4em;
   color: white;
@@ -72,9 +77,9 @@ input[type="button"]:hover {
   color: white;
 }
 
-#SalvarRank {
-  width: 450px;
-  height: 100px;
+#SalvarRank, #CancelarRank {
+  width: 350px;
+  height: 75px;
   background-color: #f0c808;
   color: #DD1c1a;
   font-weight: bold;
@@ -83,10 +88,15 @@ input[type="button"]:hover {
 }
 
 #SalvarRank:hover {
-  border-radius: 20em;
-  width: 250px;
-  border: #000 solid 2px;
-  background-color: rebeccapurple;
+  transform: translateY(-1px);
+  color: white;
+  background-color: rgb(35, 199, 30);
+}
+
+#CancelarRank:hover {
+  transform: translateY(-1px);
+  color: white;
+  background-color: rgb(199, 30, 30);
 }
 
 #NomeUsuario {
@@ -297,7 +307,9 @@ table tbody td:hover {
 }
 
 .Ranks tbody td:last-child:hover {
+  cursor: pointer;
   color: #f0c808;
+  background-color: red;
 }
 
 table tfoot td:hover,
@@ -320,6 +332,7 @@ table tbody td:last-child:hover {
 }
 
 .Musicas {
+  z-index: 2;
   margin: 10px;
   color: #222;
   align-self: start;
@@ -384,7 +397,7 @@ img {
   text-shadow: #000000;
 }
 
-.tecla:hover {
+.tecla.thunder {
   transform: translateY(3px);
 }
 
@@ -402,7 +415,7 @@ img {
 /*GameMode*/
 
 .teclaImg {
-  position: fixed;
+  position: absolute;
   border: .5px solid rgb(5, 222, 238);
   color: white;
   background-color: rgba(255, 0, 255, 1);
@@ -418,7 +431,7 @@ img {
 }
 
 .teclaImg.gamefic {
-  transform: translateY(-120px);
+  transform: translateY(-100px);
   transition: all 5s linear;
   opacity: 1;
 }
@@ -567,12 +580,11 @@ img {
 }
 
 #thunder {
-  position: fixed;
-  width: 500px;
-  transform: scaleX(-1) rotate(180deg) translate(-100px, -825px);
-  transition: linear 1s;
+  z-index: a;
+  position: absolute  ;
+  transform: rotate(180deg) translate(175px,435px);  
+  width: 300px;  
   object-fit: cover;
-  opacity: 0;
 }
 
 #thunder.on {
